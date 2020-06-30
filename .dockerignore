@@ -1,0 +1,8 @@
+node_modules
+.idea
+.dockerignore
+docker-compose.yml
+Dockerfile
+LICENSE
+README.md
+.env
