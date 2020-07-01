@@ -9,7 +9,7 @@ services:
     build: ./
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
-      - "${SOCKET_MASTER_PORT}:${SOCKET_MASTER_PORT}"
+      - "${SOCKET_MAIN_PORT}:${SOCKET_MAIN_PORT}"
       - "52000-52500:52000-52500"
       - "60000-60100:60000-60100"
     volumes:

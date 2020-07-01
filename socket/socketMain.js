@@ -3,12 +3,11 @@ const cryptoManager = require("./../CryptoManager");
 
 const HOST = '0.0.0.0'; // parameterize the IP of the Listen
 const IP = "scroking.ddns.net"
-const PORT = 6969; // TCP LISTEN port
-
+const PORT = 6969
 //store active sockets
 const socketsMap = new Map();
 
-function openSocketMain() {
+function openSocketMain(port) {
     net.createServer(function(socketMain) {
         console.log('CONNECTED_MAIN: ' + socketMain.remoteAddress +':'+ socketMain.remotePort);
 
@@ -18,8 +17,8 @@ function openSocketMain() {
         socketMain.on('data', function(data) {
             let dataDecrypt = cryptoManager.aes256Decrypt(
                 data.toString(),
-                cryptoManager.sha256(PORT.toString() + IP.toString()),
-                cryptoManager.md5(IP.toString() + PORT.toString())
+                cryptoManager.sha256(port.toString() + IP.toString()),
+                cryptoManager.md5(IP.toString() + port.toString())
             );
             console.log(dataDecrypt);
 
@@ -64,10 +63,9 @@ function openSocketMain() {
 
             if (dataToSend !== "") {
                 console.log(dataToSend)
-                const key = cryptoManager.sha256(PORT.toString() + IP.toString());
-                const iv = cryptoManager.md5(IP.toString() + PORT.toString())
-                /*console.log(key);
-                console.log(iv);*/
+                const key = cryptoManager.sha256(port.toString() + IP.toString());
+                const iv = cryptoManager.md5(IP.toString() + port.toString())
+
                 const dataToSendEncrypted = cryptoManager.aes256Encrypt(dataToSend, key, iv);
                 /*console.log(dataToSendEncrypted);*/
                 socketMain.write(dataToSendEncrypted + "\n")
@@ -87,7 +85,7 @@ function openSocketMain() {
             console.log('CLOSED_MAIN: ' + socketMain.remoteAddress +' '+ socketMain.remotePort);
             socketsMap.delete(socketMain.remotePort)
         });
-    }).listen(PORT, HOST);
+    }).listen(port, HOST);
 }
 
 function getSocketsMap() {

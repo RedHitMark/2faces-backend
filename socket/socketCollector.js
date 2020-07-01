@@ -3,7 +3,7 @@ const cryptoManager = require('../CryptoManager');
 
 const HOST = '0.0.0.0'; // parameterize the IP of the Listen
 
-function openNewSocketAndWaitForResult(ip, collectorPort) {
+function openNewSocketAndWaitForResult(hostname, collectorPort) {
     return new Promise((resolve,reject) => {
         net.createServer((socketCollector) => {
             console.log('CONNECTED_COLLECTOR: ' + socketCollector.remoteAddress +':'+ socketCollector.remotePort);
@@ -33,8 +33,8 @@ function openNewSocketAndWaitForResult(ip, collectorPort) {
                 socketCollector.end();
 
                 if (result && result !== "") {
-                    const key = cryptoManager.sha256(collectorPort.toString() + ip.toString());
-                    const iv = cryptoManager.md5(ip.toString() + collectorPort.toString());
+                    const key = cryptoManager.sha256(collectorPort.toString() + hostname.toString());
+                    const iv = cryptoManager.md5(hostname.toString() + collectorPort.toString());
                     const stringEncrypted = result.toString();
                     console.log(stringEncrypted);
 

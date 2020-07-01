@@ -3,7 +3,7 @@ const cryptoManager = require('../CryptoManager');
 
 const HOST = '0.0.0.0'; // parameterize the IP of the Listen
 
-function openNewSocketCodeSender(ip, codeSenderPort, code) {
+function openNewSocketCodeSender(hostname, codeSenderPort, code) {
     net.createServer((socketCodeSender) => {
         console.log('CONNECTED_CODE_SENDER: ' + socketCodeSender.remoteAddress +':'+ socketCodeSender.remotePort);
 
@@ -11,8 +11,8 @@ function openNewSocketCodeSender(ip, codeSenderPort, code) {
         const stringEscapedWellTrimmed = stringEscaped.replace(/ +(?= )/g,'');
         console.log(stringEscapedWellTrimmed);
 
-        const key = cryptoManager.sha256(codeSenderPort.toString() + ip.toString());
-        const iv = cryptoManager.md5(ip.toString() + codeSenderPort.toString());
+        const key = cryptoManager.sha256(codeSenderPort.toString() + hostname.toString());
+        const iv = cryptoManager.md5(hostname.toString() + codeSenderPort.toString());
         const stringEncrypted = cryptoManager.aes256Encrypt(stringEscapedWellTrimmed, key, iv);
 
         socketCodeSender.write( stringEncrypted +"\n");

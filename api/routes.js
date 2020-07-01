@@ -121,7 +121,7 @@ module.exports = (app, socketManager) => {
 
     app.delete(BASE_API_URL + API_VERSION_1_0 + "/attacks", (req, res) => {
         const attack_id = req.query.attack_id;
-        payloads.deleteOne(attack_id)
+        attacks.deleteOne(attack_id)
             .then((attack) => {
                 res.json(attack);
             }).catch((error) => {
