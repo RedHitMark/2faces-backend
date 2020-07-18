@@ -143,7 +143,7 @@ textarea {
     top: 0;
     width: 100%;
     z-index: 998;
-    background-color: #5c1ef9;
+    background-color: #1c2331;
 }
 
 .menu-area {
@@ -247,9 +247,12 @@ textarea {
 }
 
 .slicknav_nav {
-    background: #13c5de;
+    background: #1c2331;
     margin: 10px;
     padding: 6px 0px;
+}
+.slicknav_nav a{
+    color: white;
 }
 
 .slicknav_nav a:hover {
@@ -275,11 +278,13 @@ END Header Area
     display: flex;
     align-items: center;
     height: 800px;
-    background: #5d12f8;
+    /*background: #5d12f8;*/
     padding-top: 80px;
 }
 
-.slider-img {}
+.slider-img {
+    margin-bottom: 10px;
+}
 
 .slider-img img {
     max-height: 100%;
@@ -288,17 +293,19 @@ END Header Area
 .slider-inner {}
 
 .slider-inner h2 {
-    font-size: 48px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    font-size: 38px;
     font-weight: 500;
-    color: #fff;
+    color: #121212;
     letter-spacing: 0;
-    line-height: 49px;
+    line-height: 35px;
 }
 
 .slider-inner h5 {
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 500;
-    color: #fff;
+    color: #121212;
     letter-spacing: 0;
     line-height: 39px;
     margin-bottom: 50px;
@@ -308,14 +315,15 @@ END Header Area
 .slider-inner a {
     display: inline-block;
     position: relative;
+    left: calc(50% - 135px);
     height: 60px;
     width: 270px;
     background: transparent;
-    border: 2px solid #fff;
+    border: 2px solid #121212;
     border-radius: 30px;
     text-align: center;
     line-height: 56px;
-    color: #fff;
+    color: #121212;
     font-size: 20px;
     font-weight: 400;
     letter-spacing: 0;
@@ -328,10 +336,10 @@ END Header Area
     top: 6px;
     height: 44px;
     width: 44px;
-    border: 2px solid #fff;
+    /*border: 2px solid #fff;*/
     border-radius: 50%;
     line-height: 40px;
-    font-size: 16px;
+    font-size: 30px;
     padding-left: 2px;
 }
 

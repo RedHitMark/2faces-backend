@@ -84,7 +84,7 @@ async function triggerDevice(socketManager, device, payload_id) {
                         resolve(newAttack);
                     })
                     .catch((error) => {
-                        reject(error);
+                        reject({status: 501, message: error});
                     });
             })
             .catch((error) => {

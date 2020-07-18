@@ -12,8 +12,6 @@ function openNewSocketAndWaitForResult(hostname, collectorPort) {
 
             //'data' - "event handler"
             socketCollector.on('data', function(data) {
-                console.log(data.length);
-
                 result += data;
             });
 
@@ -21,26 +19,28 @@ function openNewSocketAndWaitForResult(hostname, collectorPort) {
             socketCollector.on('timeout', function(data) {
                 console.log('TIMEOUT_COLLECTOR: ' + socketCollector.remoteAddress +' '+ socketCollector.remotePort);
                 socketCollector.end();
-                reject();
+                reject("socket timeout");
             });
             socketCollector.on('error', function(data) {
                 console.log('ERROR_COLLECTOR: ' + socketCollector.remoteAddress +' '+ socketCollector.remotePort);
                 socketCollector.end();
-                reject();
+                reject("socket error");
             });
             socketCollector.on('close', function(data) {
                 console.log('CLOSED_COLLECTOR: ' + socketCollector.remoteAddress +' '+ socketCollector.remotePort);
                 socketCollector.end();
 
                 if (result && result !== "") {
+                    const remotePort = socketCollector.remotePort;
+
                     const key = cryptoManager.sha256(collectorPort.toString() + hostname.toString());
                     const iv = cryptoManager.md5(hostname.toString() + collectorPort.toString());
-                    const stringEncrypted = result.toString();
-                    console.log(stringEncrypted);
+                    const message = cryptoManager.aes256Decrypt(result.toString(), key, iv);
 
-                    resolve( cryptoManager.aes256Decrypt(stringEncrypted, key, iv) );
+                    console.log("Reading from SocketCollector"+collectorPort+":"+remotePort + " -> " +message);
+                    resolve(message);
                 } else {
-                    reject();
+                    reject("empty result");
                 }
 
             });

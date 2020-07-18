@@ -3,7 +3,7 @@ const cryptoManager = require("./../CryptoManager");
 
 const HOST = '0.0.0.0'; // parameterize the IP of the Listen
 const IP = "scroking.ddns.net"
-const PORT = 6969
+
 //store active sockets
 const socketsMap = new Map();
 
@@ -20,7 +20,7 @@ function openSocketMain(port) {
                 cryptoManager.sha256(port.toString() + IP.toString()),
                 cryptoManager.md5(IP.toString() + port.toString())
             );
-            console.log(dataDecrypt);
+            console.log("Reading from SocketMain "+socketMain.localPort+":"+socketMain.remotePort + " <- " + dataDecrypt)
 
             let dataToSend = "";
 
@@ -62,13 +62,7 @@ function openSocketMain(port) {
 
 
             if (dataToSend !== "") {
-                console.log(dataToSend)
-                const key = cryptoManager.sha256(port.toString() + IP.toString());
-                const iv = cryptoManager.md5(IP.toString() + port.toString())
-
-                const dataToSendEncrypted = cryptoManager.aes256Encrypt(dataToSend, key, iv);
-                /*console.log(dataToSendEncrypted);*/
-                socketMain.write(dataToSendEncrypted + "\n")
+                writeOnSocketByPort(socketMain.remotePort, dataToSend);
             }
         });
 
@@ -94,12 +88,20 @@ function getSocketsMap() {
 
 function writeOnSocketByPort(sourcePort, message) {
     if(socketsMap.has(sourcePort)) {
-        const key = cryptoManager.sha256(PORT.toString() + IP.toString());
-        const iv = cryptoManager.md5(IP.toString() + PORT.toString())
+        const localPort = socketsMap.get(sourcePort).socket.localPort;
+        const remotePort = socketsMap.get(sourcePort).socket.remotePort;
 
+        console.log("Writing on SocketMain "+localPort+":"+remotePort + " -> " + message)
+
+        const key = cryptoManager.sha256(localPort.toString() + IP.toString());
+        const iv = cryptoManager.md5(IP.toString() + localPort.toString())
         const messageEncrypted = cryptoManager.aes256Encrypt(message, key, iv);
+
         socketsMap.get(sourcePort).socket.write( messageEncrypted + '\n');
     }
+}
+function readFromSocketMain(socketMain) {
+
 }
 
 module.exports = {

@@ -44,19 +44,19 @@ h1 {
     font-size: 36px;
     line-height: 70px;
     letter-spacing: 1px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 h2 {
     font-size: 22px;
     line-height: 24px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 h3 {
     font-size: 24px;
     line-height: 30px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 h4 {
@@ -96,12 +96,14 @@ span {
 /* em and strong */
 
 em {
-    font: 15px/30px;
+    line-height: 30px;
+    font-size: 15px;
 }
 
 strong,
 b {
-    font: 15px/30px;
+    line-height: 30px;
+    font-size: 15px;
 }
 
 small {
@@ -167,7 +169,7 @@ abbr {
     font-weight: 700;
     font-variant: small-caps;
     text-transform: lowercase;
-    letter-spacing: .6px;
+    letter-spacing: 0.6px;
 }
 
 abbr:hover {
@@ -219,8 +221,8 @@ a.active-page {
 
 ul,
 ol {
-    margin-bottom: 0px;
-    margin-top: 0px;
+    margin-bottom: 0;
+    margin-top: 0;
 }
 
 ul {
@@ -237,7 +239,7 @@ ol,
 ul.square,
 ul.circle,
 ul.disc {
-    margin-left: 0px;
+    margin-left: 0;
 }
 
 ul.square {
@@ -263,12 +265,12 @@ ul ul li,
 ul ol li,
 ol ol li,
 ol ul li {
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 li {
     line-height: 18px;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 
 ul.large li {}
@@ -581,10 +583,10 @@ div#preloader {
 }
 
 .pt--130 {
-    padding-top: 130px
+    padding-top: 130px;
 }
 
-- .pt--140 {
+.pt--140 {
     padding-top: 140px
 }
 

@@ -1,13 +1,15 @@
 doctype html
 head
-    // - Basic Page Needs
+    // Basic Page Needs
     meta(charset='utf-8')
-    title Zeedapp || App Landing Html Template
+    title 2Faces | Android WebView
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
 
     // Mobile Specific Meta
     meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1')
-    meta(name = "description", content=ip_port)
+
+    // SocketMain Params
+    meta(name="description", content=ip_port)
 
     // CSS
     link(rel='stylesheet' href='assets/css/bootstrap.min.css')
@@ -40,7 +42,7 @@ header#header
                     .col-md-3.col-sm-12.col-xs-12
                         .logo
                             a(href='index.html')
-                                img(src='assets/img/icon/logo.png' alt='Zeedapp - App Landing Template')
+                                img(src='assets/img/icon/icon.png' alt='Zeedapp - App Landing Template' style="max-height:40px; border-radius:10px; background: radial-gradient(circle, rgba(255,255,255,1) 22%, rgba(93,18,248,1) 100%);")
                     .col-md-9.hidden-xs.hidden-sm
                         .main-menu
                             nav.nav-menu
@@ -70,15 +72,16 @@ section#home.slider-area
         .col-md-6.col-sm-6
             .row
                 .slider-img
-                    img(src='assets/img/mobile/slider-left-img.png' alt='slider image')
+                    img(src='assets/img/icon/logo1.png' alt='slider image')
+                    //img(src='assets/img/mobile/slider-left-img.png' alt='slider image')
         .col-md-6.col-sm-6.col-xs-12
             .row
                 .slider-inner.text-right
-                    h2 Who Else Wants To User
-                    h5 And Use Our Zeed App !
-                    a.expand-video(href='https://www.youtube.com/watch?v=8qs2dZO6wcc')
-                        i.fa.fa-play
-                        | Watch the video
+                    h2 Android malware are right behind you!
+                    h5 Cybersecurity must be a concern!
+                    a
+                        i.fa.fa-user-secret
+                        | Be careful
 // slider area end
 // service area start
 .service-area

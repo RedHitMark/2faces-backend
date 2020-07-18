@@ -7,7 +7,6 @@ const HOSTNAME = "scroking.ddns.net";
 
 function initSocketMain() {
     socketMain.openSocketMain(PORT);
-    //set port
 }
 
 function writeOnSocketMainByPort(port, message) {
@@ -21,12 +20,25 @@ function openNewSocketCodeSender(port, code) {
     socketCodeSender.openNewSocketCodeSender(HOSTNAME, port, code);
 }
 
+function openNewSocketAndWaitForResult(port) {
+    return new Promise((resolve,reject) => {
+        socketCollector.openNewSocketAndWaitForResult(port)
+            .then((result)=> {
+                resolve(result);
+            })
+            .catch((error) =>{
+                reject(error);
+            });
+    });
+}
+
 
 
 module.exports = {
     initSocketMain,
     writeOnSocketMainByPort,
     openNewSocketCodeSender,
+    openNewSocketAndWaitForResult,
     socketMain,
     socketCodeSender,
     socketCollector
