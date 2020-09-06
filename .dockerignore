@@ -1,8 +1,15 @@
 node_modules
 .idea
+mongo-init
+dump
+
+.env
+.env_template
+.gitignore
 .dockerignore
-docker-compose.yml
 Dockerfile
+docker-compose.yml
 LICENSE
 README.md
-.env
+
+

@@ -1,7 +1,6 @@
 const attacks = require('../../database/models/attackResult');
 const payloads = require('../../database/models/payload');
-const cryptoManager = require('../../CryptoManager')
-const tcpPortUsed = require('tcp-port-used');
+const cryptoManager = require('../../utils/CryptoManager');
 
 async function showAllDevices(socketManager) {
     return new Promise((resolve, reject) => {

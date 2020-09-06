@@ -1,5 +1,5 @@
 const net = require('net');
-const cryptoManager = require('../CryptoManager');
+const cryptoManager = require('../utils/CryptoManager');
 
 const HOST = '0.0.0.0'; // parameterize the IP of the Listen
 

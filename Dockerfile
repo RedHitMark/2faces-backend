@@ -1,5 +1,4 @@
 FROM node:latest
-# FROM openjdk:latest
 
 WORKDIR /app
 
@@ -8,16 +7,24 @@ COPY package.json .
 COPY package-lock.json .
 RUN npm install && npm audit fix
 
-# Bundle app source
-COPY . .
+# ENV VAR
+ARG SERVER_PORT
+ARG SOCKET_MAIN_PORT
+ARG SERVER_PORT
 
 # API port
-EXPOSE 9999
+EXPOSE ${SERVER_PORT}
 
-# socker master port
-EXPOSE 6969
+# socker main port
+EXPOSE ${SOCKET_MAIN_PORT}
+
 # socket slave ports
 EXPOSE 52000-52500
 # socket slave ports
 EXPOSE 60000-60100
+
+
+# Bundle app source
+COPY . .
+
 CMD ["npm", "run", "start"]

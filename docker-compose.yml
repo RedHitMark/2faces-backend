@@ -12,12 +12,22 @@ services:
       - "${SOCKET_MAIN_PORT}:${SOCKET_MAIN_PORT}"
       - "52000-52500:52000-52500"
       - "60000-60100:60000-60100"
-    volumes:
-      - .:/app
     depends_on:
       - mongo
     links:
       - mongo
+
+  # PANEL
+#  panel:
+#    container_name: 2faces-panel
+#    image: 2faces-panel:latest
+#    restart: always
+#    ports:
+#      - "9001:9001"
+#    depends_on:
+#      - app
+#    links:
+#      - app
 
   # MongoDB
   mongo:
@@ -31,5 +41,13 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
     ports:
       - "27017:27017"
-    volumes:
-      - './mongo-init/:/docker-entrypoint-initdb.d/'
+
+  # MongoDB Dump
+  mongodump:
+    container_name: 2faces-backend_mongo_dump
+    env_file: .env
+    build: dump/
+    depends_on:
+      - mongo
+    links:
+      - mongo

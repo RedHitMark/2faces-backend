@@ -6,9 +6,12 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const multer = require('multer');
 const createError = require('http-errors');
+const compression = require('compression');
+const helmet = require("helmet");
 
 // Create a new express application
 const app = express();
+
 
 // Middleware - morgan logger config
 app.use(logger('dev'));
@@ -19,6 +22,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer().array());
 // Middleware - cors policy config
 app.use(cors());
+//Middleware - compression
+app.use(compression())
+//Middleware - helmet
+app.use(helmet.hidePoweredBy());
+app.use(helmet.xssFilter());
 
 app.use(express.static('public'));
 
