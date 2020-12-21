@@ -1,5 +1,6 @@
 mongo-init
 dump
+dump.json
 
 node_modules
 .idea

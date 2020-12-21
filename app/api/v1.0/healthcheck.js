@@ -16,11 +16,4 @@ router
         })
     });
 
-// router.route("/socket-main")
-//     .get((req, res) => {
-//         res.json({
-//             message : "Socket main is listening"
-//         })
-//     });
-
 module.exports = router;

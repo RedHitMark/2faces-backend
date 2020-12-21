@@ -1,7 +1,8 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-/* GET home page. */
+const payloads = require('../../database/models/payload');
+
 router.get("/", (req, res) => {
     const payload_id = req.query.payload_id;
     if(payload_id) {

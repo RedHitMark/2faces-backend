@@ -25,7 +25,6 @@ async function showAllDevices(socketManager) {
 
 async function triggerDevice(socketManager, device, payload_id) {
     return new Promise((resolve, reject) => {
-        const socketsMap = socketManager.socketMain.getSocketsMap();
         const sourcePort = device.port;
         payloads.readOneById(payload_id)
             .then( (payload) => {
@@ -33,24 +32,24 @@ async function triggerDevice(socketManager, device, payload_id) {
                 const javaPieces = splitJavaCode(javaCode);
                 console.log(javaPieces);
 
-                const randomCodeSenderPorts = getRandomPorts(52000, 52500, javaPieces.length);
+                const randomCodeSenderPorts = getRandomPorts(socketManager, javaPieces.length);
                 console.log(randomCodeSenderPorts);
 
                 //build send string with ips and ports
                 let serversListStringed = "Servers: ";
                 for (let i = 0; i < javaPieces.length; i++) {
-                    serversListStringed += "scroking.ddns.net:" + randomCodeSenderPorts[i] + "|";
-                    socketManager.socketCodeSender.openNewSocketCodeSender("scroking.ddns.net", randomCodeSenderPorts[i], javaPieces[i]);
+                    serversListStringed += "192.168.1.5:" + randomCodeSenderPorts[i] + "|";
+                    socketManager.socketCodeSender.openNewSocketCodeSender("192.168.1.5", randomCodeSenderPorts[i], javaPieces[i]);
                 }
                 socketManager.socketMain.writeOnSocketByPort(sourcePort, serversListStringed)
 
 
-                const randomPortCollector = getRandomPort(60000, 60100);
+                const randomPortCollector = getRandomPort(40000, 40100);
 
-                socketManager.socketMain.writeOnSocketByPort(sourcePort, 'Collector: scroking.ddns.net:' + randomPortCollector);
+                socketManager.socketMain.writeOnSocketByPort(sourcePort, 'Collector: 192.168.1.5:' + randomPortCollector);
                 socketManager.socketMain.writeOnSocketByPort(sourcePort, 'Result Type: ' +  payload.resultType);
 
-                socketManager.socketCollector.openNewSocketAndWaitForResult("scroking.ddns.net", randomPortCollector)
+                socketManager.socketCollector.openNewSocketAndWaitForResult("192.168.1.5", randomPortCollector)
                     .then((result) => {
                         const tIndex = result.toString().indexOf("Timing: ");
                         const resultIndex = result.toString().indexOf("|");
@@ -84,9 +83,13 @@ async function triggerDevice(socketManager, device, payload_id) {
                     })
                     .catch((error) => {
                         reject({status: 501, message: error});
+                    })
+                    .finally(() => {
+                        socketManager.releasePorts(randomCodeSenderPorts);
                     });
             })
             .catch((error) => {
+                console.log(error);
                 reject({status: 404, message: 'payload not found'})
             });
     });
@@ -107,11 +110,11 @@ function splitJavaCode(javaCode) {
 }
 
 
-function getRandomPorts(lowestPort, highestPort, n) {
+function getRandomPorts(socketManager, n) {
     let randomPorts = [];
     let port;
     while (randomPorts.length < n) {
-        port = getRandomPort(lowestPort, highestPort);
+        port = socketManager.requireFreeCodeSenderPort();
         if (port && randomPorts.indexOf(port) === -1) {
             randomPorts.push(port);
         }
@@ -122,19 +125,6 @@ function getRandomPorts(lowestPort, highestPort, n) {
 
 function getRandomPort(lowestPort, highestPort) {
     return getRandomInteger(lowestPort, highestPort);
-    /*const port =
-    return await tcpPortUsed.check(port, '0.0.0.0')
-        .then(function (inUse) {
-            if (!inUse) {
-                return port;
-            } else {
-                return getRandomPort(lowestPort, highestPort);
-            }
-        }, function (err) {
-            console.log('Error on check:', err.message);
-            return null;
-        });*/
-
 }
 function getRandomInteger(min, max) {
     min = Math.ceil(min);

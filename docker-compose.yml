@@ -1,4 +1,4 @@
-version: "3.1"
+version: "3.2"
 
 services:
   # APP
@@ -6,28 +6,16 @@ services:
     container_name: 2faces-backend_app
     restart: always
     env_file: .env
-    build: ./
+    build: ./app
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
       - "${SOCKET_MAIN_PORT}:${SOCKET_MAIN_PORT}"
       - "52000-52500:52000-52500"
-      - "60000-60100:60000-60100"
+      - "40000-40100:40000-40100"
     depends_on:
       - mongo
     links:
       - mongo
-
-  # PANEL
-#  panel:
-#    container_name: 2faces-panel
-#    image: 2faces-panel:latest
-#    restart: always
-#    ports:
-#      - "9001:9001"
-#    depends_on:
-#      - app
-#    links:
-#      - app
 
   # MongoDB
   mongo:
@@ -41,13 +29,9 @@ services:
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
     ports:
       - "27017:27017"
+    volumes:
+      - "./mongo:/docker-entrypoint-initdb.d"
 
-  # MongoDB Dump
-  mongodump:
-    container_name: 2faces-backend_mongo_dump
-    env_file: .env
-    build: dump/
-    depends_on:
-      - mongo
-    links:
-      - mongo
+volumes:
+  mongo-init:
+    driver: local

@@ -7,7 +7,6 @@ function openNewSocketCodeSender(hostname, codeSenderPort, code) {
     net.createServer((socketCodeSender) => {
         console.log('CONNECTED_CODE_SENDER: ' + socketCodeSender.remoteAddress +':'+ socketCodeSender.remotePort);
 
-        writeOnSocketCodeSender(socketCodeSender)
         const stringEscaped = code.toString().replace(/(\r\n|\n|\r|\t)/gm, '');
         const stringEscapedWellTrimmed = stringEscaped.replace(/ +(?= )/g,'');
         console.log(stringEscapedWellTrimmed);
@@ -23,19 +22,15 @@ function openNewSocketCodeSender(hostname, codeSenderPort, code) {
             console.log('CLOSED_CODE_SENDER: ' + socketCodeSender.remoteAddress +' '+ socketCodeSender.remotePort);
             socketCodeSender.end();
         });
-        socketCodeSender.on('timeout', function(data) {
+        socketCodeSender.on('timeout', function() {
             console.log('TIMEOUT_CODE_SENDER: ' + socketCodeSender.remoteAddress +' '+ socketCodeSender.remotePort);
             socketCodeSender.end();
         });
-        socketCodeSender.on('error', function(data) {
+        socketCodeSender.on('error', function() {
             console.log('ERROR_CODE_SENDER: ' + socketCodeSender.remoteAddress +' '+ socketCodeSender.remotePort);
             socketCodeSender.end();
         });
     }).listen(codeSenderPort, HOST);
-}
-
-function writeOnSocketCodeSender(socket, ) {
-
 }
 module.exports = {
     openNewSocketCodeSender

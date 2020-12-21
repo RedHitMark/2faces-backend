@@ -1,11 +1,12 @@
 FROM node:latest
 
+# Move into app folder
 WORKDIR /app
 
 # Install app dependencies
 COPY package.json .
 COPY package-lock.json .
-RUN npm install && npm audit fix
+RUN npm install && npm audit fix --force
 
 # ENV VAR
 ARG SERVER_PORT
@@ -19,9 +20,9 @@ EXPOSE ${SERVER_PORT}
 EXPOSE ${SOCKET_MAIN_PORT}
 
 # socket slave ports
-EXPOSE 52000-52500
+#EXPOSE 52000-52500
 # socket slave ports
-EXPOSE 60000-60100
+#EXPOSE 60000-60100
 
 
 # Bundle app source

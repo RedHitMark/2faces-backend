@@ -9,7 +9,6 @@ function aes256Encrypt(message, key, iv) {
     encrypted += cipher.final('base64');
     return encrypted;
 }
-
 function aes256Decrypt(encrypted, key, iv) {
     let ivBuffer = new Buffer.from(iv, 'base64');
     let keyBuffer =  new Buffer.from(key, 'base64');

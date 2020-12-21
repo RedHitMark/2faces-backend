@@ -1,12 +1,13 @@
-# 2Faces - backend
+# 2Faces - Backend
+This is the backend application to manage 2Faces malware
 
 ## Installation
 You can install this backend using Docker container or using Node.js locally
 
 ### Run with Docker
 Prerequisites:
-* Install docker on your machine
-* Install docker compose
+* Install Docker on your machine
+* Install docker-compose
 
 Clone the repository
 ```
@@ -38,6 +39,7 @@ Prerequisites:
 * Install node.js on your machine
 * Install npm on your machine
 * Setup a mongodb server
+* Import mongodb dump (check mongo folder)
 
 Clone the repository
 ```
@@ -47,9 +49,13 @@ Move in the folder of the repository
 ```
 cd 2faces-backend
 ```
+Move in the app folder
+```
+cd app
+```
 Install dependencies
 ```
-npm install && npm audit fix
+npm install && npm audit fix -- force
 ```
 Launch server
 ```
@@ -59,12 +65,13 @@ npm start
 ### API available
 Endpoint | Method | Description
 ------------ | ------------ | -------------
-/api/v.1.0/devices | GET | Content from cell 2
+/ | GET | Landing page of 2Faces
+/api/v.1.0/healthcheck | GET | This endpoint helps to check if the server is running
+/api/v.1.0/devices | GET | Return an array of Android devices connected
 /api/v.1.0/devices | POST | Content from cell 2
-/api/v.1.0/payloads | GET| Content in the second column
+/api/v.1.0/payloads | GET| Return an array of payloads
 /api/v.1.0/payloads | POST | Content in the second column
 /api/v.1.0/payloads | PUT | Content in the second column
 /api/v.1.0/payloads | DELETE | Content in the second column
-/api/v.1.0/attacks | GET | Content in the second column
-/api/v.1.0/attacks | POST | Content in the second column
+/api/v.1.0/attacks | GET | Return an array of attacks result
 /api/v.1.0/attacks | DELETE | Content in the second column

@@ -2,7 +2,7 @@ const net = require('net');
 const cryptoManager = require("../utils/CryptoManager");
 
 const HOST = '0.0.0.0'; // parameterize the IP of the Listen
-const IP = "scroking.ddns.net"
+const IP = "192.168.1.5"
 
 //store active sockets
 const socketsMap = new Map();
@@ -103,6 +103,7 @@ function writeOnSocketByPort(sourcePort, message) {
 function readFromSocketMain(socketMain) {
 
 }
+
 
 module.exports = {
     openSocketMain,
