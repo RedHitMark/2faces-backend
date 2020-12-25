@@ -1,27 +1,28 @@
 const express = require('express');
 const router = express.Router();
 
-const payloads = require('../../database/models/payload');
+const payloads = require('../database/models/payload');
 
 router.get("/", (req, res) => {
     const payload_id = req.query.payload_id;
-    if(payload_id) {
+    if (payload_id) {
         payloads.readOneById(payload_id)
             .then((payload) => {
-                if(payload) {
+                if (payload) {
                     res.json(payload);
                 } else {
                     res.status(404).json({error: "payload not found"});
                 }
-
-            }).catch((error) => {
+            })
+            .catch((error) => {
                 res.status(error.status).json({error: error.message});
             });
     } else {
         payloads.readAll()
             .then((payloads) => {
                 res.json(payloads);
-            }).catch((error) => {
+            })
+            .catch((error) => {
                 res.status(error.status).json({error: error.message});
             });
     }
@@ -31,11 +32,12 @@ router.post("/", (req, res) => {
     payloads.create(req.body)
         .then((payloads) => {
             res.json(payloads);
-        }).catch((error) => {
-        res.status(500).json({
-            error: error
+        })
+        .catch((error) => {
+            res.status(500).json({
+                error: error
+            });
         });
-    });
 });
 
 router.delete("/", (req, res) => {
@@ -43,7 +45,8 @@ router.delete("/", (req, res) => {
     payloads.deleteOne(payload_id)
         .then((payloads) => {
             res.json(payloads);
-        }).catch((error) => {
+        })
+        .catch((error) => {
             res.status(error.status).json({error: error.message});
         });
 });
@@ -53,7 +56,8 @@ router.put("/", (req, res) => {
     payloads.updateOne(payload_id, req.body)
         .then((payloads) => {
             res.json(payloads);
-        }).catch((error) => {
+        })
+        .catch((error) => {
             res.status(error.status).json({error: error.message});
         });
 });

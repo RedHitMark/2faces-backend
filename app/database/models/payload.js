@@ -1,5 +1,3 @@
-'use strict';
-
 const payloadModel = require('../mongo').models.payload;
 
 function create(data) {

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const attacks = require('../../database/models/attackResult');
+const attacks = require('../database/models/attackResult');
 
 router.get("/", (req, res) => {
     const attack_id = req.query.attack_id;
@@ -13,7 +13,8 @@ router.get("/", (req, res) => {
                 } else {
                     res.status(404).json({error: "payload not found"});
                 }
-            }).catch((error) => {
+            })
+            .catch((error) => {
                 res.status(error.status).json({error: error.message});
             });
     } else {
@@ -31,9 +32,10 @@ router.delete("/", (req, res) => {
     attacks.deleteOne(attack_id)
         .then((attack) => {
             res.json(attack);
-        }).catch((error) => {
-        res.status(error.status).json({error: error.message});
-    });
+        })
+        .catch((error) => {
+            res.status(error.status).json({error: error.message});
+        });
 });
 
 module.exports = router;

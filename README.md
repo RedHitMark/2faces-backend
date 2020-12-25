@@ -65,7 +65,7 @@ Launch server
 npm start
 ```
 
-### API available
+### API endpoints available
 Endpoint | Method | Description
 ------------ | ------------ | -------------
 / | GET | Landing page of 2Faces

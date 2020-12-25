@@ -16,16 +16,35 @@ function writeOnSocketMainByPort(port, message) {
 function requireFreeCodeSenderPort() {
     return socketCodeSender.requireFreeCodeSenderPort();
 }
-function releasePorts(ports) {
+function releaseCodeSenderPorts(ports) {
     socketCodeSender.releasePorts(ports);
 }
 function openNewSocketCodeSender(port, code) {
     socketCodeSender.openNewSocketCodeSender(HOSTNAME, port, code);
 }
 
+function requireFreeCodeSenderPorts(n) {
+    let randomPorts = [];
+    let port;
+    while (randomPorts.length < n) {
+        port = socketCodeSender.requireFreeCodeSenderPort();
+        if (port && randomPorts.indexOf(port) === -1) {
+            randomPorts.push(port);
+        }
+    }
+    return randomPorts;
+}
+
+function releaseCollectorPort(port) {
+    socketCollector.releasePort(port);
+}
+function requireFreeCodeCollectorPort() {
+    return socketCollector.requireFreeCodeCollectorPort();
+}
+
 function openNewSocketAndWaitForResult(port) {
     return new Promise((resolve,reject) => {
-        socketCollector.openNewSocketAndWaitForResult(port)
+        socketCollector.openNewSocketAndWaitForResult(HOSTNAME, port)
             .then((result)=> {
                 resolve(result);
             })
@@ -36,16 +55,18 @@ function openNewSocketAndWaitForResult(port) {
 }
 
 
-
-
 module.exports = {
     initSocketMain,
     writeOnSocketMainByPort,
-    openNewSocketCodeSender,
-    openNewSocketAndWaitForResult,
+
     requireFreeCodeSenderPort,
-    releasePorts,
+    requireFreeCodeSenderPorts,
+    openNewSocketCodeSender,
+    releaseCodeSenderPorts,
+
+    requireFreeCodeCollectorPort,
+    openNewSocketAndWaitForResult,
+    releaseCollectorPort,
+
     socketMain,
-    socketCodeSender,
-    socketCollector
 };

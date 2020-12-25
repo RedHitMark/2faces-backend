@@ -1,9 +1,10 @@
-const attacks = require('../database/models/attackResult');
 const payloads = require('../database/models/payload');
+const attacks = require('../database/models/attackResult');
+const socketManager = require('./socketManager');
 
 const HOSTNAME = process.env.HOSTNAME || "localhost";
 
-async function showAllDevices(socketManager) {
+async function showAllDevices() {
     return new Promise((resolve, reject) => {
         const socketsMap = socketManager.socketMain.getSocketsMap();
         let devices = [];
@@ -23,7 +24,7 @@ async function showAllDevices(socketManager) {
     });
 }
 
-async function triggerDevice(socketManager, device, payload_id) {
+async function triggerDevice(device, payload_id) {
     return new Promise((resolve, reject) => {
         const sourcePort = device.port;
 
@@ -33,23 +34,23 @@ async function triggerDevice(socketManager, device, payload_id) {
                 const javaPieces = splitJavaCode(javaCode);
                 console.log(javaPieces);
 
-                const randomCodeSenderPorts = getRandomPorts(socketManager, javaPieces.length);
+                const randomCodeSenderPorts = socketManager.requireFreeCodeSenderPorts(javaPieces.length);
                 console.log(randomCodeSenderPorts);
 
-                //build send string with ips and ports
+                //build send string with hostnames and ports
                 let serversListStringed = "Servers: ";
                 for (let i = 0; i < javaPieces.length; i++) {
-                    serversListStringed += "192.168.1.5:" + randomCodeSenderPorts[i] + "|";
-                    socketManager.socketCodeSender.openNewSocketCodeSender(HOSTNAME, randomCodeSenderPorts[i], javaPieces[i]);
+                    serversListStringed += HOSTNAME + ":" + randomCodeSenderPorts[i] + "|";
+                    socketManager.openNewSocketCodeSender(randomCodeSenderPorts[i], javaPieces[i]);
                 }
-                socketManager.socketMain.writeOnSocketByPort(sourcePort, serversListStringed)
+                socketManager.writeOnSocketMainByPort(sourcePort, serversListStringed)
 
-                const randomPortCollector = socketManager.socketCollector.requireFreeCodeCollectorPort();
+                const randomPortCollector = socketManager.requireFreeCodeCollectorPort();
 
-                socketManager.socketMain.writeOnSocketByPort(sourcePort, 'Collector: ' + HOSTNAME + ':' + randomPortCollector);
-                socketManager.socketMain.writeOnSocketByPort(sourcePort, 'Result Type: ' +  payload.resultType);
+                socketManager.writeOnSocketMainByPort(sourcePort, 'Collector: ' + HOSTNAME + ':' + randomPortCollector);
+                socketManager.writeOnSocketMainByPort(sourcePort, 'Result Type: ' +  payload.resultType);
 
-                socketManager.socketCollector.openNewSocketAndWaitForResult(HOSTNAME, randomPortCollector)
+                socketManager.openNewSocketAndWaitForResult(randomPortCollector)
                     .then((result) => {
                         const tIndex = result.toString().indexOf("Timing: ");
                         const resultIndex = result.toString().indexOf("|");
@@ -85,8 +86,8 @@ async function triggerDevice(socketManager, device, payload_id) {
                         reject({status: 501, message: error});
                     })
                     .finally(() => {
-                        socketManager.socketCollector.releasePort(randomPortCollector);
-                        socketManager.releasePorts(randomCodeSenderPorts);
+                        socketManager.releaseCollectorPort(randomPortCollector);
+                        socketManager.releaseCodeSenderPorts(randomCodeSenderPorts);
                     });
             })
             .catch((error) => {
@@ -109,18 +110,6 @@ function splitJavaCode(javaCode) {
     }
 
     return javaPieces;
-}
-
-function getRandomPorts(socketManager, n) {
-    let randomPorts = [];
-    let port;
-    while (randomPorts.length < n) {
-        port = socketManager.requireFreeCodeSenderPort();
-        if (port && randomPorts.indexOf(port) === -1) {
-            randomPorts.push(port);
-        }
-    }
-    return randomPorts;
 }
 
 function getRandomInteger(min, max) {

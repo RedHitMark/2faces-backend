@@ -1,5 +1,3 @@
-'use strict';
-
 const attackResultModel = require('../mongo').models.attackResult;
 
 function create(data) {

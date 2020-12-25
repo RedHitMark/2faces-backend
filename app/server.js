@@ -1,6 +1,6 @@
-// Dependencies
-const app = require('./app');
+/** Server Dependencies **/
 const http = require('http');
+const app = require('./app');
 const secrets = require('./secrets.json');
 
 // Define a port for the server to listen on
@@ -15,6 +15,7 @@ server.listen(PORT);
 
 server.on('error', onError);
 server.on('listening', onListening);
+
 
 /**
  * Normalize a port into a number, string, or false.
@@ -34,6 +35,7 @@ function normalizePort(val) {
 
     return false;
 }
+
 
 /**
  * Event listener for HTTP server "error" event.
@@ -61,6 +63,7 @@ function onError(error) {
             throw error;
     }
 }
+
 
 /**
  * Event listener for HTTP server "listening" event.

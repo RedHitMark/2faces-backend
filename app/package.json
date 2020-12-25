@@ -5,7 +5,7 @@
   "main": "server.js",
   "private": true,
   "scripts": {
-    "start": "nodemon start server.js"
+    "start": "node server.js"
   },
   "author": {
     "name": "RedHitMark",
@@ -38,7 +38,6 @@
     "http-errors": "^1.7.3",
     "mongoose": "^5.11.8",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.6",
     "pug": "^3.0.0"
   }
 }

@@ -1,14 +1,15 @@
+/** APP Dependencies **/
 const express = require('express');
-const path = require('path');
 const logger = require('morgan');
-const cors = require('cors');
 const bodyParser = require('body-parser');
-const createError = require('http-errors');
+const cors = require('cors');
 const compression = require('compression');
 const helmet = require("helmet");
+const path = require('path');
+const createError = require('http-errors');
 
 
-// Create a new express application
+/** Create a new express application **/
 const app = express();
 
 
@@ -28,23 +29,24 @@ app.set('views', path.join(__dirname, 'views'));
 
 // web end point
 app.get('/', function(req, res){
-    res.render('index', {ip_port: "192.168.1.5:"+process.env.SOCKET_MAIN_PORT});
+    res.render('index', {ip_port: process.env.HOSTNAME+":"+process.env.SOCKET_MAIN_PORT});
 });
 app.get('/index', function(req, res){
-    res.render('index', {ip_port: "192.168.1.5:"+process.env.SOCKET_MAIN_PORT});
+    res.render('index', {ip_port: process.env.HOSTNAME+":"+process.env.SOCKET_MAIN_PORT});
 });
 app.get('/index.html', function(req, res){
-    res.render('index', {ip_port: "192.168.1.5:"+process.env.SOCKET_MAIN_PORT});
+    res.render('index', {ip_port:process.env.HOSTNAME+":"+process.env.SOCKET_MAIN_PORT});
 });
 
 
-// Open socketManager
+/** Open socketManager **/
 const socketManager = require('./socket/socketManager');
 socketManager.initSocketMain();
 
 
-// Load all api routes
-const routes = require('./api/routes')(app, socketManager);
+/** Load Router **/
+const router = require('./api/router');
+app.use(router);
 
 
 // catch 404 and forward to error handler

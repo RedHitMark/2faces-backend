@@ -62,6 +62,6 @@ function openNewSocketCodeSender(hostname, codeSenderPort, code) {
 
 module.exports = {
     openNewSocketCodeSender,
-    requireFreeCodeSenderPort,
-    releasePorts
+    releasePorts,
+    requireFreeCodeSenderPort
 };
