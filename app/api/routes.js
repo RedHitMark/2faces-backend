@@ -2,50 +2,22 @@ module.exports = (app, socketManager) => {
     const BASE_API_URL = "/api";
     const API_VERSION_1_0 = '/v1.0';
 
-    const payloadRouter = require('./v1.0/payload');
-    const attackRouter = require('./v1.0/attack');
-    const healthRouter = require('./v1.0/healthcheck');
+    const payloadRouter = require('./routes/payload');
+    const attackRouter = require('./routes/attack');
+    const healthRouter = require('./routes/healthcheck');
+    const deviceRouter = require('./routes/device')(socketManager);
 
-    const deviceManager = require('./v1.0/deviceManager');
-
-    /** Healthcheck**/
+    /** Healthcheck endpoints **/
     app.use(BASE_API_URL + API_VERSION_1_0 + '/healthcheck', healthRouter);
 
     /** Attacks endpoints **/
-    app.use(BASE_API_URL + API_VERSION_1_0 + '/attack', attackRouter);
+    app.use(BASE_API_URL + API_VERSION_1_0 + '/attacks', attackRouter);
 
     /** Payload endpoints **/
     app.use(BASE_API_URL + API_VERSION_1_0 + '/payload', payloadRouter);
 
-
-    /** Attacks endpoints **/
-    app.use(BASE_API_URL + API_VERSION_1_0 + '/attack', attackRouter);
-
-
     /** Devices endpoints **/
-    app.route(BASE_API_URL + API_VERSION_1_0 + "/devices")
-        .get((req, res) => {
-            deviceManager.showAllDevices(socketManager)
-                .then((ok) => {
-                    res.json(ok);
-                }).catch((error) => {
-                    res.status(error.status).json({error: error.message});
-                });
-        })
-        .post((req, res) => {
-            const device = req.body.device;
-            const payload_id = req.body.payload_id;
-
-            deviceManager.triggerDevice(socketManager, device, payload_id)
-                .then((ok) => {
-                    res.json(ok);
-                }).catch((error) => {
-                    res.status(error.status).json({error: error.message});
-                });
-        });
-
-
-
+    app.use(BASE_API_URL + API_VERSION_1_0 + '/devices', deviceRouter);
 
 
     /** Not found FALL-BACK **/

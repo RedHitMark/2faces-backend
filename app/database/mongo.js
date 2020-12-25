@@ -1,13 +1,30 @@
 const Mongoose = require('mongoose');
-const config = require('../config/dbConfig');
+let secrets = require('../secrets.json');
+
+const username = process.env.MONGO_USER || secrets.mongodb.user;
+const password = process.env.MONGO_PASSWORD || secrets.mongodb.password;
+const host = process.env.DOCKER_RUNNING ? "mongo" : secrets.mongodb.host;
+const port = process.env.MONGO_PORT || secrets.mongodb.port;
+const dbname = process.env.MONGO_DATABASE || secrets.mongodb.dbname;
+const authSource = "admin"
+
+const url = 'mongodb://' +
+    username + ':' +
+    password + '@' +
+    host + ':' +
+    port + '/' +
+    dbname+ '?authSource=' +
+    authSource;
+
+const mongoOptions = {useNewUrlParser: true, useUnifiedTopology: true };
 
 /**
- * Connessione al DB
+ * DB Connection
  */
-Mongoose.connect(config.url, config.mongoOptions);
+Mongoose.connect(url, mongoOptions);
 
 /**
- * Errore in caso di connessione non avvenuta
+ * DB Connection error handling
  */
 Mongoose.connection.on('error', (err) => {
     if (err) {
@@ -18,7 +35,7 @@ Mongoose.connection.on('error', (err) => {
 Mongoose.Promise = global.Promise;
 
 /**
- * Export dei componenti necessari per la connessione e utilizzo del DB
+ * Export of DB Connection and collections schemas
  */
 module.exports = {
     Mongoose, models: {

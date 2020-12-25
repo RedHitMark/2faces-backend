@@ -14,15 +14,15 @@ router.get("/", (req, res) => {
                     res.status(404).json({error: "payload not found"});
                 }
             }).catch((error) => {
-            res.status(error.status).json({error: error.message});
-        });
+                res.status(error.status).json({error: error.message});
+            });
     } else {
         attacks.readAll()
             .then((attacks) => {
                 res.json(attacks);
             }).catch((error) => {
-            res.status(error.status).json({error: error.message});
-        });
+                res.status(error.status).json({error: error.message});
+            });
     }
 });
 

@@ -12,15 +12,7 @@ const helmet = require("helmet");
 const app = express();
 
 
-/**
- * Middlewares
- * morgan logger:
- * bodyParser:
- * multer:
- * cors policy config:
- * compression
- * helmet
- */
+/** Middlewares **/
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -28,7 +20,6 @@ app.use(cors());
 app.use(compression());
 app.use(helmet());
 app.use(express.static('public'));
-
 
 
 app.set('view engine', 'pug');

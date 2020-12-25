@@ -1,15 +1,10 @@
-mongo-init
-dump
-
-node_modules
+.git
 .idea
+.dockerignore
 .env
 .env_template
 .gitignore
-.dockerignore
-Dockerfile
 docker-compose.yml
 LICENSE
 README.md
-
 

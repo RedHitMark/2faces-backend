@@ -1,31 +1,32 @@
-const attacks = require('../../database/models/attackResult');
-const payloads = require('../../database/models/payload');
-const cryptoManager = require('../../utils/CryptoManager');
+const attacks = require('../database/models/attackResult');
+const payloads = require('../database/models/payload');
+
+const HOSTNAME = process.env.HOSTNAME || "localhost";
 
 async function showAllDevices(socketManager) {
     return new Promise((resolve, reject) => {
-        const socks = socketManager.socketMain.getSocketsMap();
-        //console.log(socks);
-        let arr = [];
+        const socketsMap = socketManager.socketMain.getSocketsMap();
+        let devices = [];
 
-        socks.forEach((value, port) => {
-            arr.push({
-                ip: value.socket.remoteAddress,
+        socketsMap.forEach((socketInfo, port) => {
+            devices.push({
+                ip: socketInfo.socket.remoteAddress,
                 port: port,
-                model: value.model,
-                api : value.api,
-                permissions : value.permissions,
-                permissionsGranted : value.permissionsGranted
+                model: socketInfo.model,
+                api : socketInfo.api,
+                permissions : socketInfo.permissions,
+                permissionsGranted : socketInfo.permissionsGranted
             });
         });
 
-        resolve(arr);
+        resolve(devices);
     });
 }
 
 async function triggerDevice(socketManager, device, payload_id) {
     return new Promise((resolve, reject) => {
         const sourcePort = device.port;
+
         payloads.readOneById(payload_id)
             .then( (payload) => {
                 const javaCode = payload.content;
@@ -39,17 +40,16 @@ async function triggerDevice(socketManager, device, payload_id) {
                 let serversListStringed = "Servers: ";
                 for (let i = 0; i < javaPieces.length; i++) {
                     serversListStringed += "192.168.1.5:" + randomCodeSenderPorts[i] + "|";
-                    socketManager.socketCodeSender.openNewSocketCodeSender("192.168.1.5", randomCodeSenderPorts[i], javaPieces[i]);
+                    socketManager.socketCodeSender.openNewSocketCodeSender(HOSTNAME, randomCodeSenderPorts[i], javaPieces[i]);
                 }
                 socketManager.socketMain.writeOnSocketByPort(sourcePort, serversListStringed)
 
+                const randomPortCollector = socketManager.socketCollector.requireFreeCodeCollectorPort();
 
-                const randomPortCollector = getRandomPort(40000, 40100);
-
-                socketManager.socketMain.writeOnSocketByPort(sourcePort, 'Collector: 192.168.1.5:' + randomPortCollector);
+                socketManager.socketMain.writeOnSocketByPort(sourcePort, 'Collector: ' + HOSTNAME + ':' + randomPortCollector);
                 socketManager.socketMain.writeOnSocketByPort(sourcePort, 'Result Type: ' +  payload.resultType);
 
-                socketManager.socketCollector.openNewSocketAndWaitForResult("192.168.1.5", randomPortCollector)
+                socketManager.socketCollector.openNewSocketAndWaitForResult(HOSTNAME, randomPortCollector)
                     .then((result) => {
                         const tIndex = result.toString().indexOf("Timing: ");
                         const resultIndex = result.toString().indexOf("|");
@@ -85,6 +85,7 @@ async function triggerDevice(socketManager, device, payload_id) {
                         reject({status: 501, message: error});
                     })
                     .finally(() => {
+                        socketManager.socketCollector.releasePort(randomPortCollector);
                         socketManager.releasePorts(randomCodeSenderPorts);
                     });
             })
@@ -94,6 +95,7 @@ async function triggerDevice(socketManager, device, payload_id) {
             });
     });
 }
+
 function splitJavaCode(javaCode) {
     const stringLength = javaCode.length - 1;
     let javaPieces = [];
@@ -109,7 +111,6 @@ function splitJavaCode(javaCode) {
     return javaPieces;
 }
 
-
 function getRandomPorts(socketManager, n) {
     let randomPorts = [];
     let port;
@@ -122,10 +123,6 @@ function getRandomPorts(socketManager, n) {
     return randomPorts;
 }
 
-
-function getRandomPort(lowestPort, highestPort) {
-    return getRandomInteger(lowestPort, highestPort);
-}
 function getRandomInteger(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);

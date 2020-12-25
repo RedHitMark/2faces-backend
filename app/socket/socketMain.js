@@ -1,8 +1,7 @@
 const net = require('net');
 const cryptoManager = require("../utils/CryptoManager");
 
-const HOST = '0.0.0.0'; // parameterize the IP of the Listen
-const IP = "192.168.1.5"
+const HOSTNAME = process.env.HOSTNAME || "localhost";
 
 //store active sockets
 const socketsMap = new Map();
@@ -17,8 +16,8 @@ function openSocketMain(port) {
         socketMain.on('data', function(data) {
             let dataDecrypt = cryptoManager.aes256Decrypt(
                 data.toString(),
-                cryptoManager.sha256(port.toString() + IP.toString()),
-                cryptoManager.md5(IP.toString() + port.toString())
+                cryptoManager.sha256(port.toString() + HOSTNAME.toString()),
+                cryptoManager.md5(HOSTNAME.toString() + port.toString())
             );
             console.log("Reading from SocketMain "+socketMain.localPort+":"+socketMain.remotePort + " <- " + dataDecrypt)
 
@@ -79,7 +78,7 @@ function openSocketMain(port) {
             console.log('CLOSED_MAIN: ' + socketMain.remoteAddress +' '+ socketMain.remotePort);
             socketsMap.delete(socketMain.remotePort)
         });
-    }).listen(port, HOST);
+    }).listen(port);
 }
 
 function getSocketsMap() {
@@ -93,17 +92,13 @@ function writeOnSocketByPort(sourcePort, message) {
 
         console.log("Writing on SocketMain "+localPort+":"+remotePort + " -> " + message)
 
-        const key = cryptoManager.sha256(localPort.toString() + IP.toString());
-        const iv = cryptoManager.md5(IP.toString() + localPort.toString())
+        const key = cryptoManager.sha256(localPort.toString() + HOSTNAME.toString());
+        const iv = cryptoManager.md5(HOSTNAME.toString() + localPort.toString())
         const messageEncrypted = cryptoManager.aes256Encrypt(message, key, iv);
 
         socketsMap.get(sourcePort).socket.write( messageEncrypted + '\n');
     }
 }
-function readFromSocketMain(socketMain) {
-
-}
-
 
 module.exports = {
     openSocketMain,

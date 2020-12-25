@@ -1,9 +1,10 @@
-// Server dependencies
+// Dependencies
 const app = require('./app');
 const http = require('http');
+const secrets = require('./secrets.json');
 
 // Define a port for the server to listen on
-const PORT = process.env.SERVER_PORT || 9999;
+const PORT = normalizePort(process.env.SERVER_PORT || secrets.serverPort || '9999');
 app.set('port', PORT);
 
 // Create a new http server instance
@@ -15,8 +16,23 @@ server.listen(PORT);
 server.on('error', onError);
 server.on('listening', onListening);
 
-function pipeOrPort(address) {
-    return typeof address == "string" ? `pipe ${address}` : `port ${address.port}`;
+/**
+ * Normalize a port into a number, string, or false.
+ */
+function normalizePort(val) {
+    let port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+
+    return false;
 }
 
 /**
@@ -27,7 +43,9 @@ function onError(error) {
         throw error;
     }
 
-    let bind = pipeOrPort(server.address());
+    let bind = typeof PORT === 'string'
+        ? 'Pipe ' + PORT
+        : 'Port ' + PORT;
 
     // handle specific listen errors with friendly messages
     switch (error.code) {
@@ -48,6 +66,9 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 function onListening() {
-    let bind = pipeOrPort(server.address());
+    let addr = server.address();
+    let bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
     console.log('Server started and listening on port ' + bind);
 }

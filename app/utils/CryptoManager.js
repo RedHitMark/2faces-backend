@@ -27,11 +27,6 @@ function md5(message) {
     return crypto.createHash('md5').update(message).digest('base64');
 }
 
-function sha256File(filePath) {
-    let stream = fs.ReadStream(filePath);
-    return sha256(stream.toString());
-}
-
 
 module.exports = {
     aes256Encrypt,
