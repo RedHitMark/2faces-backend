@@ -19,9 +19,12 @@ cd 2faces-backend
 ```
 Create a .env file based on this template
 ```
+DOCKER_RUNNING=1
 MONGO_USER=2facesAdmin
 MONGO_PASSWORD=2facesPassword
 MONGO_DATABASE=2facesdb
+MONGO_PORT=27017
+HOSTNAME=192.168.1.5
 SERVER_PORT=9999
 SOCKET_MAIN_PORT=6969
 SOCKET_CODE_SENDER=52000
