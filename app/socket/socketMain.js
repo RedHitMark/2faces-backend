@@ -1,12 +1,15 @@
 const net = require('net');
 const cryptoManager = require("../utils/CryptoManager");
 
+
 const HOSTNAME = process.env.HOSTNAME || "localhost";
+const SOCKET_MAIN_PORT = process.env.SOCKET_MAIN_PORT || 6969;
 
-//store active sockets
-const socketsMap = new Map();
 
-function openSocketMain(port) {
+let socketsMap = new Map(); //store active sockets
+
+
+function openSocketMain() {
     net.createServer(function(socketMain) {
         console.log('CONNECTED_MAIN: ' + socketMain.remoteAddress +':'+ socketMain.remotePort);
 
@@ -16,8 +19,8 @@ function openSocketMain(port) {
         socketMain.on('data', function(data) {
             let dataDecrypt = cryptoManager.aes256Decrypt(
                 data.toString(),
-                cryptoManager.sha256(port.toString() + HOSTNAME.toString()),
-                cryptoManager.md5(HOSTNAME.toString() + port.toString())
+                cryptoManager.sha256(SOCKET_MAIN_PORT.toString() + HOSTNAME),
+                cryptoManager.md5(HOSTNAME + SOCKET_MAIN_PORT.toString())
             );
             console.log("Reading from SocketMain "+socketMain.localPort+":"+socketMain.remotePort + " <- " + dataDecrypt)
 
@@ -78,13 +81,11 @@ function openSocketMain(port) {
             console.log('CLOSED_MAIN: ' + socketMain.remoteAddress +' '+ socketMain.remotePort);
             socketsMap.delete(socketMain.remotePort)
         });
-    }).listen(port);
+    }).listen(SOCKET_MAIN_PORT);
 }
-
 function getSocketsMap() {
     return socketsMap;
 }
-
 function writeOnSocketByPort(sourcePort, message) {
     if(socketsMap.has(sourcePort)) {
         const localPort = socketsMap.get(sourcePort).socket.localPort;
@@ -92,8 +93,8 @@ function writeOnSocketByPort(sourcePort, message) {
 
         console.log("Writing on SocketMain "+localPort+":"+remotePort + " -> " + message)
 
-        const key = cryptoManager.sha256(localPort.toString() + HOSTNAME.toString());
-        const iv = cryptoManager.md5(HOSTNAME.toString() + localPort.toString())
+        const key = cryptoManager.sha256(localPort.toString() + HOSTNAME);
+        const iv = cryptoManager.md5(HOSTNAME + localPort.toString())
         const messageEncrypted = cryptoManager.aes256Encrypt(message, key, iv);
 
         socketsMap.get(sourcePort).socket.write( messageEncrypted + '\n');

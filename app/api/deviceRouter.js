@@ -1,9 +1,9 @@
 const express = require('express');
-const router = express.Router();
+const deviceRouter = express.Router();
 
 const deviceManager = require('../socket/deviceManager');
 
-router.get("/", (req, res) => {
+deviceRouter.get("/", (req, res) => {
     deviceManager.showAllDevices()
         .then((devices) => {
             res.json(devices);
@@ -14,7 +14,7 @@ router.get("/", (req, res) => {
         });
 });
 
-router.post("/", (req, res) => {
+deviceRouter.post("/", (req, res) => {
     const device = req.body.device;
     const payload_id = req.body.payload_id;
 
@@ -26,5 +26,5 @@ router.post("/", (req, res) => {
         });
 });
 
-module.exports = router;
+module.exports = deviceRouter;
 

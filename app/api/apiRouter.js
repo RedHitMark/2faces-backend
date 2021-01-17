@@ -1,8 +1,6 @@
 const express = require('express');
 
-const router = express.Router();
-
-const BASE_API_PATH = "/api";
+const apiRouter = express.Router();
 
 const payloadRouter = require('./payloadRouter');
 const attackRouter = require('./attackRouter');
@@ -10,20 +8,20 @@ const healthRouter = require('./healthcheckRouter');
 const deviceRouter = require('./deviceRouter');
 
 /** Healthcheck endpoints **/
-router.use(BASE_API_PATH + '/healthcheck', healthRouter);
+apiRouter.use('/healthcheck', healthRouter);
 
 /** Attacks endpoints **/
-router.use(BASE_API_PATH + '/attacks', attackRouter);
+apiRouter.use('/attacks', attackRouter);
 
 /** Payload endpoints **/
-router.use(BASE_API_PATH + '/payload', payloadRouter);
+apiRouter.use('/payload', payloadRouter);
 
 /** Devices endpoints **/
-router.use(BASE_API_PATH + '/devices', deviceRouter);
+apiRouter.use('/devices', deviceRouter);
 
 
 /** Not found FALL-BACK **/
-router.route("*")
+apiRouter.route("*")
     .get((req, res) => {
         console.log('GET fall back');
         res.status(404).json({message : "not found on this server"});
@@ -41,5 +39,4 @@ router.route("*")
         res.status(404).json({message : "not found on this server"});
     });
 
-
-module.exports = router;
+module.exports = apiRouter;

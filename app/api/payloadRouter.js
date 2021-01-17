@@ -1,9 +1,9 @@
 const express = require('express');
-const router = express.Router();
+const payloadRouter = express.Router();
 
 const payloads = require('../database/models/payload');
 
-router.get("/", (req, res) => {
+payloadRouter.get("/", (req, res) => {
     const payload_id = req.query.payload_id;
     if (payload_id) {
         payloads.readOneById(payload_id)
@@ -28,7 +28,7 @@ router.get("/", (req, res) => {
     }
 });
 
-router.post("/", (req, res) => {
+payloadRouter.post("/", (req, res) => {
     payloads.create(req.body)
         .then((payloads) => {
             res.json(payloads);
@@ -40,7 +40,7 @@ router.post("/", (req, res) => {
         });
 });
 
-router.delete("/", (req, res) => {
+payloadRouter.delete("/", (req, res) => {
     const payload_id = req.query.payload_id;
     payloads.deleteOne(payload_id)
         .then((payloads) => {
@@ -51,7 +51,7 @@ router.delete("/", (req, res) => {
         });
 });
 
-router.put("/", (req, res) => {
+payloadRouter.put("/", (req, res) => {
     const payload_id = req.query.payload_id;
     payloads.updateOne(payload_id, req.body)
         .then((payloads) => {
@@ -63,4 +63,4 @@ router.put("/", (req, res) => {
 });
 
 
-module.exports = router;
+module.exports = payloadRouter;

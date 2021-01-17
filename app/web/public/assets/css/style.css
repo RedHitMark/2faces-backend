@@ -312,9 +312,8 @@ END Header Area
     margin-top: 5px;
 }
 
-.slider-inner a {
-    display: inline-block;
-    position: relative;
+.slider-inner div {
+    position: absolute;
     left: calc(50% - 135px);
     height: 60px;
     width: 270px;
@@ -327,7 +326,6 @@ END Header Area
     font-size: 20px;
     font-weight: 400;
     letter-spacing: 0;
-    padding-left: 44px;
 }
 
 .slider-inner a i {
@@ -336,7 +334,6 @@ END Header Area
     top: 6px;
     height: 44px;
     width: 44px;
-    /*border: 2px solid #fff;*/
     border-radius: 50%;
     line-height: 40px;
     font-size: 30px;

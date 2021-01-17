@@ -1,9 +1,9 @@
 const express = require('express');
-const router = express.Router();
+const attackRouter = express.Router();
 
 const attacks = require('../database/models/attackResult');
 
-router.get("/", (req, res) => {
+attackRouter.get("/", (req, res) => {
     const attack_id = req.query.attack_id;
     if(attack_id) {
         attacks.readOneById(attack_id)
@@ -27,7 +27,7 @@ router.get("/", (req, res) => {
     }
 });
 
-router.delete("/", (req, res) => {
+attackRouter.delete("/", (req, res) => {
     const attack_id = req.query.attack_id;
     attacks.deleteOne(attack_id)
         .then((attack) => {
@@ -38,4 +38,4 @@ router.delete("/", (req, res) => {
         });
 });
 
-module.exports = router;
+module.exports = attackRouter;

@@ -1,19 +1,35 @@
 const net = require('net');
 const cryptoManager = require('../utils/CryptoManager');
 
-const MIN_PORT = process.env.SOCKET_COLLECTOR || 52000;
-const MAX_PORT = process.env.SOCKET_COLLECTOR1 || 52500;
 
-const socketsCodeCollectorPool = new Map();
+const HOSTNAME = process.env.HOSTNAME || "localhost";
+const MIN_PORT = process.env.SOCKET_COLLECTOR || 62000;
+const MAX_PORT = process.env.SOCKET_COLLECTOR1 || 62500;
 
-function openNewSocketAndWaitForResult(hostname, collectorPort) {
+
+let socketsCodeCollectorPool = new Map();
+
+
+function requireFreeCodeCollectorPort() {
+    let port = 0;
+    let poolObject;
+    let timestamp = Math.floor(new Date().getTime()/1000)
+    do {
+        port = getRandomInteger(MIN_PORT, MAX_PORT);
+        poolObject = socketsCodeCollectorPool.get(port);
+        console.log(port, poolObject, timestamp);
+    } while (poolObject && poolObject.status !== "in_use" &&  (timestamp - poolObject.endTime) < 1000000000);
+    socketsCodeCollectorPool.set(port, {status:"in_use"})
+    return port;
+}
+function openSocketCollectorAndWaitForResult(collectorPort) {
     return new Promise((resolve,reject) => {
         net.createServer((socketCollector) => {
             console.log('CONNECTED_COLLECTOR: ' + socketCollector.remoteAddress +':'+ socketCollector.remotePort);
 
             let result = "";
 
-            //'data' - "event handler"
+
             socketCollector.on('data', function(data) {
                 result += data;
             });
@@ -36,8 +52,8 @@ function openNewSocketAndWaitForResult(hostname, collectorPort) {
                 if (result && result !== "") {
                     const remotePort = socketCollector.remotePort;
 
-                    const key = cryptoManager.sha256(collectorPort.toString() + hostname.toString());
-                    const iv = cryptoManager.md5(hostname.toString() + collectorPort.toString());
+                    const key = cryptoManager.sha256(collectorPort.toString() + HOSTNAME);
+                    const iv = cryptoManager.md5(HOSTNAME + collectorPort.toString());
                     const message = cryptoManager.aes256Decrypt(result.toString(), key, iv);
 
                     console.log("Reading from SocketCollector"+collectorPort+":"+remotePort + " -> " +message);
@@ -50,22 +66,10 @@ function openNewSocketAndWaitForResult(hostname, collectorPort) {
         }).listen(collectorPort);
     });
 }
-
-function requireFreeCodeCollectorPort() {
-    let port = 0;
-    let poolObject;
-    let timestamp = Math.floor(new Date().getTime()/1000)
-    do {
-        port = getRandomInteger(MIN_PORT, MAX_PORT);
-        poolObject = socketsCodeCollectorPool.get(port);
-        console.log(port, poolObject, timestamp);
-    } while (poolObject && poolObject.status !== "in_use" &&  (timestamp - poolObject.endTime) < 1000000000);
-    socketsCodeCollectorPool.set(port, {status:"in_use"})
-    return port;
-}
 function releasePort(port) {
     socketsCodeCollectorPool.set(port, {status:"not_used", endTime:Math.floor(new Date().getTime()/1000)});
 }
+
 function getRandomInteger(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
@@ -73,7 +77,7 @@ function getRandomInteger(min, max) {
 }
 
 module.exports = {
-    openNewSocketAndWaitForResult,
     requireFreeCodeCollectorPort,
+    openSocketCollectorAndWaitForResult,
     releasePort
 };

@@ -1,5 +1,6 @@
 /** APP Dependencies **/
 const express = require('express');
+
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
@@ -20,23 +21,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(compression());
 app.use(helmet());
-app.use(express.static('public'));
+app.use(express.static('web/public'));
 
 
+/** Web Views **/
 app.set('view engine', 'pug');
-app.set('views', path.join(__dirname, 'views'));
-
-
-// web end point
-app.get('/', function(req, res){
-    res.render('index', {ip_port: process.env.HOSTNAME+":"+process.env.SOCKET_MAIN_PORT});
-});
-app.get('/index', function(req, res){
-    res.render('index', {ip_port: process.env.HOSTNAME+":"+process.env.SOCKET_MAIN_PORT});
-});
-app.get('/index.html', function(req, res){
-    res.render('index', {ip_port:process.env.HOSTNAME+":"+process.env.SOCKET_MAIN_PORT});
-});
+app.set('views', path.join(__dirname, 'web/views'));
 
 
 /** Open socketManager **/
@@ -44,9 +34,15 @@ const socketManager = require('./socket/socketManager');
 socketManager.initSocketMain();
 
 
-/** Load Router **/
-const router = require('./api/router');
-app.use(router);
+/** Web Router **/
+const webRouter = require('./web/webRouter');
+app.use('/', webRouter); //TODO remove asap
+app.use('/web', webRouter);
+
+
+/** API Router **/
+const apiRouter = require('./api/apiRouter');
+app.use('/api', apiRouter);
 
 
 // catch 404 and forward to error handler

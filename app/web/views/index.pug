@@ -1,15 +1,14 @@
 doctype html
 head
-    // Basic Page Needs
-    meta(charset='utf-8')
-    title 2Faces | Android WebView
     meta(http-equiv='X-UA-Compatible' content='IE=edge')
+    meta(charset='UTF-8')
+    meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=5')
 
-    // Mobile Specific Meta
-    meta(name='viewport' content='width=device-width, initial-scale=1, maximum-scale=1')
-
-    // SocketMain Params
+    title 2Faces | Android WebView
     meta(name="description", content=ip_port)
+    meta(name="author", content="Marco Russodivito")
+    meta(name="copyright", content="Marco Russodivito")
+
 
     // CSS
     link(rel='stylesheet' href='assets/css/bootstrap.min.css')
@@ -23,7 +22,7 @@ head
     link(rel='stylesheet' href='assets/css/style.css')
     link(rel='stylesheet' href='assets/css/responsive.css')
     // Favicon
-    link(rel='shortcut icon' type='image/png' href='assets/img/icon/favicon.ico')
+    link(rel='shortcut icon' type='image/png' href='assets/img/icon/icon.png')
     // HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
     // WARNING: Respond.js doesn't work if you view the page via file://
     //if lt IE 9
@@ -79,7 +78,7 @@ section#home.slider-area
                 .slider-inner.text-right
                     h2 Android malware are right behind you!
                     h5 Cybersecurity must be a concern!
-                    a
+                    div
                         i.fa.fa-user-secret
                         | Be careful
 // slider area end
@@ -323,70 +322,6 @@ section#screenshot.screen-area.bg-gray.ptb--100
                         a(href='#')
                             i.fa.fa-ponterest
 // testimonial carousel area end
-// video area start
-.video-area.ptb--100
-    .container
-        .row
-            .col-md-8.col-md-offset-2.col-sm-10.col-sm-offset-1.col-xs-12
-                h2 Watch Video Demo
-                p
-                    | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                a.expand-video(href='https://www.youtube.com/watch?v=8qs2dZO6wcc')
-                    i.fa.fa-play
-// video area end
-// pricing area start
-section#pricing.pricing-area.ptb--100
-    .container
-        .section-title
-            h2 Pricing Plan
-            p Nemo enim ipsam voluptatem quia voluptas sit
-        .row
-            .col-md-4.col-sm-4.col-xs-12.col-6
-                .single-price
-                    .prc-head
-                        span Silver
-                        h5
-                            small $
-                            | 50/m
-                    ul
-                        li 10 User
-                        li 1 Year
-                        li 512 Mb Memory
-                        li 30GB SSD Disk
-                        li 1 TB Transfer
-                        li 6 Months Support
-                    a(href='#') Order Now
-            .col-md-4.col-sm-4.col-xs-12.col-6
-                .single-price
-                    .prc-head
-                        span Silver
-                        h5
-                            small $
-                            | 150/m
-                    ul
-                        li 10 User
-                        li 1 Year
-                        li 512 Mb Memory
-                        li 30GB SSD Disk
-                        li 1 TB Transfer
-                        li 6 Months Support
-                    a(href='#') Order Now
-            .col-md-4.col-sm-4.col-xs-12.col-6
-                .single-price
-                    .prc-head
-                        span Silver
-                        h5
-                            small $
-                            | 250/m
-                    ul
-                        li 10 User
-                        li 1 Year
-                        li 512 Mb Memory
-                        li 30GB SSD Disk
-                        li 1 TB Transfer
-                        li 6 Months Support
-                    a(href='#') Order Now
-// pricing area end
 // team area start
 section#team.team-area.bg-gray.ptb--100
     .container
@@ -500,127 +435,7 @@ section#download.call-to-action.ptb--100
                 i.fa.fa-android
                 | android story
 // call-action area end
-// blog area start
-section#blog.blog-post.ptb--100
-    .container
-        .section-title
-            h2 Latest News
-            p Nemo enim ipsam voluptatem quia voluptas sit
-        .row
-            .col-md-4.col-sm-6.col-xs-12.col-6
-                .single-post
-                    a(href='blog.html')
-                        img(src='assets/img/blog/blog-post-img.jpg' alt='blog image')
-                    .blog-meta
-                        ul
-                            li
-                                i.fa.fa-user
-                                | John
-                            li
-                                i.fa.fa-comment
-                                | Comments
-                            li
-                                i.fa.fa-calendar
-                                | 21 Feb 2018
-                    h2
-                        a(href='blog.html') There are many variations
-                    p
-                        | Lorem ipsum dolor sit amet,ut consectetur adipisicing elit,eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            .col-md-4.col-sm-6.col-xs-12.col-6
-                .single-post
-                    a(href='blog.html')
-                        img(src='assets/img/blog/blog-post-img1.jpg' alt='blog image')
-                    .blog-meta
-                        ul
-                            li
-                                i.fa.fa-user
-                                | John
-                            li
-                                i.fa.fa-comment
-                                | Comments
-                            li
-                                i.fa.fa-calendar
-                                | 21 Feb 2018
-                    h2
-                        a(href='blog.html') There are many variations
-                    p
-                        | Lorem ipsum dolor sit amet,ut consectetur adipisicing elit,eiusmod tempor incididunt ut labore et dolore magna aliqua.
-            .col-md-4.col-sm-6.col-xs-12.col-6
-                .single-post
-                    a(href='blog.html')
-                        img(src='assets/img/blog/blog-post-img2.jpg' alt='blog image')
-                    .blog-meta
-                        ul
-                            li
-                                i.fa.fa-user
-                                | John
-                            li
-                                i.fa.fa-comment
-                                | Comments
-                            li
-                                i.fa.fa-calendar
-                                | 21 Feb 2018
-                    h2
-                        a(href='blog.html') There are many variations
-                    p
-                        | Lorem ipsum dolor sit amet,ut consectetur adipisicing elit,eiusmod tempor incididunt ut labore et dolore magna aliqua.
-// blog area end
-// client area start
-.clinet-area.bg-gray.ptb--100
-    .container
-        .client-carousel.owl-carousel
-            img(src='assets/img/client/client-img.png' alt='client image')
-            img(src='assets/img/client/client-img1.png' alt='client image')
-            img(src='assets/img/client/client-img2.png' alt='client image')
-            img(src='assets/img/client/client-img3.png' alt='client image')
-            img(src='assets/img/client/client-img1.png' alt='client image')
-// client area end
-// contact area start
-section#contact.contact-area.ptb--100
-    .container
-        .section-title
-            h2 Contact Us
-            p Nemo enim ipsam voluptatem quia voluptas sit
-        .row
-            .col-md-6.col-sm-6.col-xs-12
-                .contact-form
-                    form(action='#')
-                        input(type='text' name='name' placeholder='Enter Your Name')
-                        input(type='text' name='email' placeholder='Enter Your Email')
-                        textarea#msg(name='msg' placeholder='Your Message ')
-                        input#send(type='submit' value='Send')
-            .col-md-6.col-sm-6.col-xs-12
-                .contact_info
-                    .s-info
-                        i.fa.fa-map-marker
-                        .meta-content
-                            span 17 Bath Rd, Heathrow, Longford,Hounslow
-                            span TW7 1AB, UK
-                    .s-info
-                        i.fa.fa-mobile
-                        .meta-content
-                            span +0123 456 789 78
-                            span +0123 456 789 78
-                    .s-info
-                        i.fa.fa-paper-plane
-                        .meta-content
-                            span Support@domain.com
-                            span Example@Gmail.com
-                    .c-social
-                        ul
-                            li
-                                a(href='#')
-                                    i.fa.fa-facebook
-                            li
-                                a(href='#')
-                                    i.fa.fa-twitter
-                            li
-                                a(href='#')
-                                    i.fa.fa-behance
-                            li
-                                a(href='#')
-                                    i.fa.fa-dribbble
-// contact area end
+
 // footer area start
 footer
     .footer-area

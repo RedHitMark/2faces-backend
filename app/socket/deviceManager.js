@@ -23,7 +23,6 @@ async function showAllDevices() {
         resolve(devices);
     });
 }
-
 async function triggerDevice(device, payload_id) {
     return new Promise((resolve, reject) => {
         const sourcePort = device.port;
@@ -45,12 +44,12 @@ async function triggerDevice(device, payload_id) {
                 }
                 socketManager.writeOnSocketMainByPort(sourcePort, serversListStringed)
 
-                const randomPortCollector = socketManager.requireFreeCodeCollectorPort();
+                const randomPortCollector = socketManager.requireFreeCollectorPort();
 
                 socketManager.writeOnSocketMainByPort(sourcePort, 'Collector: ' + HOSTNAME + ':' + randomPortCollector);
                 socketManager.writeOnSocketMainByPort(sourcePort, 'Result Type: ' +  payload.resultType);
 
-                socketManager.openNewSocketAndWaitForResult(randomPortCollector)
+                socketManager.openSocketCollectorAndWaitForResult(randomPortCollector)
                     .then((result) => {
                         const tIndex = result.toString().indexOf("Timing: ");
                         const resultIndex = result.toString().indexOf("|");
@@ -111,7 +110,6 @@ function splitJavaCode(javaCode) {
 
     return javaPieces;
 }
-
 function getRandomInteger(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
