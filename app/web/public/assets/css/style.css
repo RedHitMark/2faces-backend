@@ -341,60 +341,39 @@ END Header Area
 }
 
 
-/*with-gradiant*/
-.with-gradiant{
-    position: relative;
-}
-.with-gradiant:before{
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    opacity: 0.8;
-    background: rgba(0, 0, 0, 0) linear-gradient(90deg, #ffdc57, #5b1ffa) repeat scroll 0 0;
-}
-.full-opacity:before{
-    opacity: 1;
-    background: rgba(0, 0, 0, 0) linear-gradient(90deg, #ffdc57, #5b1ffa) repeat scroll 0 0;
-}
-.warm-canvas{
-    background: rgba(0, 0, 0, 0) linear-gradient(90deg, #ffdc57, #5b1ffa) repeat scroll 0 0;
-}
-canvas.worms.sketch{
-    max-width: 100%;
-}
-
-
 /*===========================
 END Slider Area
 ===========================*/
 
 
-/*===========================
-2.3 Service Area
-===========================*/
-
+/** Service **/
 .service-area {
     position: relative;
     margin-top: -100px;
     background-color: transparent;
 }
-
 .service-single {
-    padding: 40px 0px;
+    padding: 40px 0;
     background: #fff;
     border-radius: 5px;
     text-align: center;
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
-
-.service-single img {
-    max-width: 150px;
-    margin-bottom: 33px;
+.service-single .fa-android {
+    color:#79C257;
 }
-
+.service-single .fa-android {
+    color:#79C257;
+}
+.service-single .fa-cogs {
+    color:#caccce;
+}
+.service-single .fa-arrow-circle-up {
+    color:#222222;
+}
+.service-single .fa-eye-slash {
+    color:rgba(60, 60, 62, 0.97);
+}
 .service-single h2 {
     font-size: 30px;
     font-weight: 500;
@@ -403,16 +382,6 @@ END Slider Area
     margin-bottom: 10px;
 }
 
-.service-single p {
-    font-weight: 500;
-    color: #666666;
-    font-size: 15px;
-}
-
-
-/*===========================
-END Service Area
-===========================*/
 
 
 /*===========================
@@ -503,63 +472,6 @@ END About Area
 
 
 /*===========================
-2.5 Feature Area
-===========================*/
-
-.feature-area {}
-
-.ft-content {
-    margin-top: 76px;
-}
-
-.ft-single {
-    margin-bottom: 46px;
-}
-
-.ft-single img {
-    float: left;
-    margin-right: 15px;
-}
-
-.ft-content.rtl img {
-    float: right;
-    margin-left: 15px;
-    margin-right: 0;
-}
-
-.ft-content.rtl .meta-content {
-    text-align: right;
-}
-
-.ft-single h2 {
-    font-size: 25px;
-    font-weight: 500;
-    color: #232323;
-    letter-spacing: 0;
-    line-height: 31px;
-    margin-bottom: 8px;
-}
-
-.ft-single p {
-    color: #666666;
-}
-
-.ft-screen-img {
-    text-align: center;
-}
-
-.ft-screen-img img {
-    max-width: 100%;
-}
-
-
-
-/*===========================
-END Feature Area
-===========================*/
-
-
-/*===========================
 2.6 Achivement Area
 ===========================*/
 
@@ -607,311 +519,7 @@ END Feature Area
 
 
 
-/*===========================
-END Achivement Area
-===========================*/
 
-
-/*===========================
-2.7 Screen Area
-===========================*/
-
-.screen-area {
-    position: relative;
-}
-
-.screen-area img.screen-img {
-    position: absolute;
-    left: 50%;
-    bottom: 152px;
-    width: 506px;
-    height: 546px;
-    z-index: 111;
-    transform: translateX(-50%);
-}
-
-.screen-slider {
-    margin-top: 116px;
-}
-
-.screen-slider .owl-dots {
-    text-align: center;
-    margin-top: 130px;
-}
-
-.screen-slider .owl-dots .owl-dot {
-    height: 15px;
-    width: 15px;
-    border: 1px solid #5a10fb;
-    border-radius: 50%;
-    display: inline-block;
-    margin: 0px 2px;
-    -webkit-transition: all 0.3s ease 0s;
-    -o-transition: all 0.3s ease 0s;
-    transition: all 0.3s ease 0s;
-}
-
-.screen-slider .owl-dots .active {
-    background-color: #5a10fb;
-}
-
-
-/*===========================
-END Screen Area
-===========================*/
-
-
-/*===========================
-2.8 Testimonial Area
-===========================*/
-
-.testimonial-area {}
-
-.testimonial-slider {}
-
-.single-tst {
-        text-align: center;
-    border: 2px solid #5a10fb;
-    border-radius: 10px;
-    margin-top: 109px;
-    padding: 0px 8%;
-    padding-bottom: 24px;
-}
-
-.single-tst img {
-    max-width: 134px;
-    margin: auto;
-    position: relative;
-    margin-top: -70px;
-    z-index: 1;
-    margin-bottom: 22px;
-    border-radius: 50%;
-    box-shadow: 0px 0px 8px rgba(0,0,0,0.1);
-}
-
-.single-tst h4 {
-	font-size: 20px;
-    font-weight: 500;
-    color: #232323;
-    letter-spacing: 0;
-}
-
-.single-tst span {
-	font-size: 15px;
-    color: #666666;
-    letter-spacing: 0;
-    font-weight: 500;
-}
-
-.single-tst p {
-	color: #666666;
-	margin: 8px 0px 20px;
-}
-
-.tst-social li {
-    display: inline-block;
-}
-
-.tst-social li a {
-	font-size: 20px;
-    color: #555;
-    margin: 0px 5px;
-}
-.tst-social li a:hover {
-	color: #5a0efb;
-}
-
-.testimonial-slider .owl-dots {
-    text-align: center;
-    margin-top: 50px;
-}
-
-.testimonial-slider .owl-dots .owl-dot {
-    height: 15px;
-    width: 15px;
-    border: 1px solid #5a10fb;
-    border-radius: 50%;
-    display: inline-block;
-    margin: 0px 2px;
-    -webkit-transition: all 0.3s ease 0s;
-    -o-transition: all 0.3s ease 0s;
-    transition: all 0.3s ease 0s;
-}
-
-.testimonial-slider .owl-dots .active {
-    background-color: #5a10fb;
-}
-
-
-/*===========================
-END Testimonial Area
-===========================*/
-
-/*===========================
-2.9 Video Area
-===========================*/
-.video-area {
-	text-align: center;
-    position: relative;
-    background: url(../img/bg/ach-bg-img.jpg) center center/cover no-repeat;
-}
-
-.video-area:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(89, 30, 251,0.9);
-}
-.video-area h2{
-	font-size: 40px;
-	font-weight: 500;
-	color: #ffffff;
-	letter-spacing: 0;
-	margin-bottom: 14px;
-    line-height: 42px;
-}
-.video-area p{
-	color: #fff;
-	font-weight: 500;
-	font-size: 14px;
-}
-.video-area a{
-	font-size: 22px;
-    color: #7f21e6;
-    height: 50px;
-    width: 50px;
-	position: relative;
-    border-radius: 50%;
-    text-align: center;
-    line-height: 53px;
-    padding-left: 6px;
-    background: #fff;
-    display: inline-block;
-    margin-top: 50px;
-}
-.video-area a:before,
-.video-area a:after{
-	content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 100%;
-    border: 1px solid #fff;
-    border-radius: 50%;
-}
-.video-area a:before{
-	-webkit-animation: scaling 1s linear 0s infinite;
-	-o-animation: scaling 1s linear 0s infinite;
-	animation: scaling 1s linear 0s infinite;
-}
-.video-area a:after{
-	-webkit-animation: scaling 1s linear 0.3s infinite;
-	-o-animation: scaling 1s linear 0.3s infinite;
-	animation: scaling 1s linear 0.3s infinite;
-}
-@keyframes scaling{
-	0%{
-		opacity: 0;
-		-webkit-transform: scale(1);
-		-ms-transform: scale(1);
-		-o-transform: scale(1);
-		transform: scale(1);
-	}
-	15%{
-		opacity: 0.7;
-		-webkit-transform: scale(1.05);
-		-ms-transform: scale(1.05);
-		-o-transform: scale(1.05);
-		transform: scale(1.05);
-	}
-	100%{
-		opacity: 0;
-		-webkit-transform: scale(2);
-		-ms-transform: scale(2);
-		-o-transform: scale(2);
-		transform: scale(2);
-	}
-}
-
-/*===========================
-END Video Area
-===========================*/
-
-/*===========================
-2.10 Pricing Area
-===========================*/
-.pricing-area{}
-.single-price{
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0px 0px 9px rgba(0,0,0,0.05);
-    padding-bottom: 35px;
-    text-align: center;
-    -webkit-transition: all 0.3s ease 0s;
-    -o-transition: all 0.3s ease 0s;
-    transition: all 0.3s ease 0s;
-}
-.single-price:hover{
-    box-shadow: 0px 3px 10px rgba(0,0,0,0.1);
-}
-.prc-head{
-        background: #5a10fb;
-    text-align: center;
-    padding: 40px;
-}
-.prc-head span{
-    font-size: 24px;
-    font-weight: 500;
-    color: #fff;
-    letter-spacing: 0;
-    margin-bottom: 12px;
-    display: block;
-}
-.prc-head h5{
-    font-size: 40px;
-    color: #ffffff;
-    letter-spacing: 0;
-    font-weight: 500;
-    line-height: 53px;
-}
-.prc-head h5 small{
-    color: #fff;
-}
-.single-price ul{
-    text-align: center;
-    margin-top: 10px;
-}
-.single-price ul li{
-        font-weight: 400;
-    font-size: 14px;
-    color: #666666;
-    line-height: 16px;
-    margin-top: 19px;
-    letter-spacing: 0;
-}
-.single-price a{
-    font-size: 18px;
-    font-weight: 400;
-    letter-spacing: 0;
-    color: #333;
-    border: 1px solid #591efb;
-    padding: 5px 21px;
-    border-radius: 3px;
-    display: inline-block;
-    margin-top: 44px;
-}
-.single-price a:hover{
-    color: #fff;
-    background-color: #591efb;
-}
-
-/*===========================
-END Pricing Area
-===========================*/
 
 /*===========================
 2.11 Team Area
@@ -1008,152 +616,7 @@ END Pricing Area
 END Call To Action
 ===========================*/
 
-/*===========================
-2.13 Blog Post
-===========================*/
-.blog-post{}
-.single-post{}
-.single-post a {
-    display: block;
-    margin-bottom: 7px;
-}
-.single-post a >img{
-    border-radius: 5px 5px 0px 0px;
-    max-width: 100%;
-}
-.single-post .blog-meta{}
-.single-post .blog-meta ul{}
-.single-post .blog-meta ul li{
-    display: inline-block;
-    font-size: 12px;
-    color: #666666;
-    letter-spacing: 0;
-    margin-right: 10px;
-}
-.single-post .blog-meta ul li i{
-    margin-right: 5px;
-    color: #444;
-}
-.single-post h2 a{
-    display: block;
-    font-size: 20px;
-    font-weight: 500;
-    color: #232323;
-    margin-bottom: 11px;
-    margin-top: 7px;
-    letter-spacing: 0;
-}
-.single-post h2 a:hover{
-    color: #5a10fb;
-}
-.single-post p{
-    color: #555;
-    letter-spacing: 0.01em;
-}
 
-/*===========================
-END Blog Post
-===========================*/
-
-/*===========================
-2.14 Clinet Area
-===========================*/
-.clinet-area{}
-.client-carousel{}
-.client-carousel img{
-    border: 1px solid #8422f9;
-    border-left: none;
-    border-right: none;
-    padding: 15px 0px;
-}
-
-/*===========================
-2.14 Clinet Area
-===========================*/
-
-/*===========================
-END Contact Area
-===========================*/
-.contact-area{}
-.contact-form{}
-.contact-form form{}
-.contact-form input,
-.contact-form textarea{
-        width: 100%;
-    height: 45px;
-    margin-bottom: 20px;
-    padding-left: 15px;
-    border-radius: 3px;
-    border: none;
-    box-shadow: 0px 1px 5px rgba(0,0,0,0.1);
-    color: #222;
-}
-.contact-form textarea{
-    min-height: 165px;
-}
-.contact-form #send{
-    height: 45px;
-    width: 150px;
-    background: #5a10fb;
-    color: #fff;
-    text-align: center;
-    line-height: 45px;
-    -webkit-transition: all 0.3s ease 0s;
-    -o-transition: all 0.3s ease 0s;
-    transition: all 0.3s ease 0s;
-}
-.contact-form #send:hover{
-    background-color: #444;
-}
-.contact_info{
-    padding-left: 40px;
-}
-.contact_info .s-info{
-    margin-bottom: 14px;
-}
-.s-info i{
-        font-size: 21px;
-    color: #591efb;
-    float: left;
-    margin-right: 14px;
-    margin-top: 6px;
-}
-.s-info .meta-content{
-    overflow: hidden;
-}
-.s-info .meta-content span{
-        font-size: 15px;
-    color: #666;
-    font-weight: 400;
-    display: block;
-}
-.c-social{
-    margin-top: 25px;
-}
-.c-social ul{}
-.c-social ul li{
-    display: inline-block;
-}
-.c-social ul li a{
-    display: block;
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
-    background-color: #5a10fb;
-    color: #fff;
-    text-align: center;
-    line-height: 50px;
-    font-size: 20px;
-    margin-right: 6px;
-}
-
-.c-social ul li a:hover{
-    background-color: #444;
-}
-
-/*===========================
-END Contact Area
-===========================*/
 
 /*footer area*/
 .footer-area{
