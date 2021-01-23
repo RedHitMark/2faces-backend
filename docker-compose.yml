@@ -37,6 +37,6 @@ services:
     volumes:
       - './mongo:/docker-entrypoint-initdb.d'
 
-#volumes:
-#  mongo:
-#    driver: local
+volumes:
+  mongo:
+    driver: local

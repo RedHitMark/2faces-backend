@@ -7,10 +7,9 @@ const cors = require('cors');
 const compression = require('compression');
 const helmet = require("helmet");
 const path = require('path');
-const createError = require('http-errors');
 
 
-/** Create a new express application **/
+/** Create a new Express APP **/
 const app = express();
 
 
@@ -20,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 app.use(compression());
-app.use(helmet());
+app.use(helmet({contentSecurityPolicy : false}));
 app.use(express.static('web/public'));
 
 
@@ -36,7 +35,6 @@ socketManager.initSocketMain();
 
 /** Web Router **/
 const webRouter = require('./web/webRouter');
-app.use('/', webRouter); //TODO remove asap
 app.use('/web', webRouter);
 
 
@@ -45,22 +43,11 @@ const apiRouter = require('./api/apiRouter');
 app.use('/api', apiRouter);
 
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-    next(createError(404));
+/** Catch 404 error **/
+app.use((req, res, next) => {
+    res.status(404).json({message : "not found on this server"});
 });
 
 
-/*// error handler
-app.use(function(err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
-});*/
-
-
+/** Export Express APP**/
 module.exports = app;

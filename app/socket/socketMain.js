@@ -1,9 +1,10 @@
 const net = require('net');
-const cryptoManager = require("../utils/CryptoManager");
+const cryptoManager = require("../utils/CryptoUtil");
+const secrets = require('../secrets.json');
 
 
-const HOSTNAME = process.env.HOSTNAME || "localhost";
-const SOCKET_MAIN_PORT = process.env.SOCKET_MAIN_PORT || 6969;
+const HOSTNAME = process.env.HOSTNAME || secrets.serverHostName || "localhost";
+const SOCKET_MAIN_PORT = process.env.SOCKET_MAIN_PORT || secrets.socketMainPort || 6969;
 
 
 let socketsMap = new Map(); //store active sockets
@@ -100,6 +101,7 @@ function writeOnSocketByPort(sourcePort, message) {
         socketsMap.get(sourcePort).socket.write( messageEncrypted + '\n');
     }
 }
+
 
 module.exports = {
     openSocketMain,

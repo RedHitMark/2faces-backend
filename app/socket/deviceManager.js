@@ -1,12 +1,15 @@
 const payloads = require('../database/models/payload');
 const attacks = require('../database/models/attackResult');
 const socketManager = require('./socketManager');
+const secrets = require('../secrets.json');
 
-const HOSTNAME = process.env.HOSTNAME || "localhost";
+
+const HOSTNAME = process.env.HOSTNAME || secrets.serverHostName || "localhost";
+
 
 async function showAllDevices() {
     return new Promise((resolve, reject) => {
-        const socketsMap = socketManager.socketMain.getSocketsMap();
+        const socketsMap = socketManager.getDeviceConnectedToSocketMain();
         let devices = [];
 
         socketsMap.forEach((socketInfo, port) => {
@@ -30,7 +33,8 @@ async function triggerDevice(device, payload_id) {
         payloads.readOneById(payload_id)
             .then( (payload) => {
                 const javaCode = payload.content;
-                const javaPieces = splitJavaCode(javaCode);
+                const javaCodeMinified = minifyJavaCode(javaCode);
+                const javaPieces = splitJavaCode(javaCodeMinified);
                 console.log(javaPieces);
 
                 const randomCodeSenderPorts = socketManager.requireFreeCodeSenderPorts(javaPieces.length);
@@ -42,41 +46,37 @@ async function triggerDevice(device, payload_id) {
                     serversListStringed += HOSTNAME + ":" + randomCodeSenderPorts[i] + "|";
                     socketManager.openNewSocketCodeSender(randomCodeSenderPorts[i], javaPieces[i]);
                 }
-                socketManager.writeOnSocketMainByPort(sourcePort, serversListStringed)
 
                 const randomPortCollector = socketManager.requireFreeCollectorPort();
 
+                socketManager.writeOnSocketMainByPort(sourcePort, serversListStringed)
                 socketManager.writeOnSocketMainByPort(sourcePort, 'Collector: ' + HOSTNAME + ':' + randomPortCollector);
                 socketManager.writeOnSocketMainByPort(sourcePort, 'Result Type: ' +  payload.resultType);
 
                 socketManager.openSocketCollectorAndWaitForResult(randomPortCollector)
                     .then((result) => {
                         const tIndex = result.toString().indexOf("Timing: ");
-                        const resultIndex = result.toString().indexOf("|");
-                        console.log(tIndex);
-                        console.log(resultIndex);
+                        const timingString = result.toString().substring(tIndex+8, resultIndex);
+                        const timings = timingString.split('~');
 
-                        const all = result.toString().substring(tIndex+8, resultIndex);
-                        const allSplitted = all.split('~');
-                        console.log(allSplitted);
+                        const rIndex = result.toString().indexOf("|");
+                        const resultString = result.toString().substring(rIndex+9);
 
-                        const timing = {
-                            download_time : parseFloat(allSplitted[0]),
-                            parse_time : parseFloat(allSplitted[1]),
-                            compile_time : parseFloat(allSplitted[2]),
-                            dynamic_loading_time : parseFloat(allSplitted[3]),
-                            execution_time : parseFloat(allSplitted[4])
-                        }
-
-                        const resultString = result.toString().substring(resultIndex+9);
                         const newAttack = {
                             device : device,
                             payload_id : payload_id,
                             result : resultString,
-                            timing: timing,
+                            timing: {
+                                download_time : parseFloat(timings[0]),
+                                parse_time : parseFloat(timings[1]),
+                                compile_time : parseFloat(timings[2]),
+                                dynamic_loading_time : parseFloat(timings[3]),
+                                execution_time : parseFloat(timings[4])
+                            },
                             resultType: payload.resultType
                         };
-                        console.log(resultString);
+                        console.log(newAttack)
+
 
                         attacks.create(newAttack);
                         resolve(newAttack);
@@ -96,13 +96,28 @@ async function triggerDevice(device, payload_id) {
     });
 }
 
+/**
+ * Returns javaCode minified, removing tabs and spaces
+ * @param javaCode to minify
+ * @returns {string} javaCode minified
+ */
+function minifyJavaCode(javaCode){
+    const stringEscaped = javaCode.toString().replace(/(\r\n|\n|\r|\t)/gm, '');
+    return stringEscaped.replace(/ +(?= )/g, '');
+}
+
+/**
+ * Returns a random subset split of the javaCode
+ * @param javaCode to split
+ * @returns {[]}
+ */
 function splitJavaCode(javaCode) {
     const stringLength = javaCode.length - 1;
     let javaPieces = [];
 
     let i = 0;
     while(i <= stringLength) {
-        const newIndex = getRandomInteger(i, stringLength);
+        const newIndex = i+getRandomInteger(1, stringLength/6);
         const substringLenght = newIndex - i  + 1;
         javaPieces.push(javaCode.substr(i, substringLenght));
         i = newIndex + 1;
@@ -110,11 +125,19 @@ function splitJavaCode(javaCode) {
 
     return javaPieces;
 }
+
+/**
+ * Returns a random integer in range [min;max)
+ * @param min inclusive
+ * @param max exclusive
+ * @returns {number} random integer in range [min;max)
+ */
 function getRandomInteger(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min; //Il max è escluso e il min è incluso
+    return Math.floor(Math.random() * (max - min)) + min;
 }
+
 
 module.exports = {
     showAllDevices,

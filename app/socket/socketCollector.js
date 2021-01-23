@@ -1,10 +1,11 @@
 const net = require('net');
-const cryptoManager = require('../utils/CryptoManager');
+const cryptoManager = require('../utils/CryptoUtil');
+const secrets = require('../secrets.json');
 
 
-const HOSTNAME = process.env.HOSTNAME || "localhost";
-const MIN_PORT = process.env.SOCKET_COLLECTOR || 62000;
-const MAX_PORT = process.env.SOCKET_COLLECTOR1 || 62500;
+const HOSTNAME = process.env.HOSTNAME || secrets.serverHostName || "localhost";
+const MIN_PORT = process.env.SOCKET_CODE_SENDER || secrets.socketCollectorRange.min || 62000;
+const MAX_PORT = process.env.SOCKET_CODE_SENDER1 || secrets.socketCollectorRange.max || 62500;
 
 
 let socketsCodeCollectorPool = new Map();
@@ -70,11 +71,13 @@ function releasePort(port) {
     socketsCodeCollectorPool.set(port, {status:"not_used", endTime:Math.floor(new Date().getTime()/1000)});
 }
 
+
 function getRandomInteger(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min; //Il max è escluso e il min è incluso
 }
+
 
 module.exports = {
     requireFreeCodeCollectorPort,

@@ -6,6 +6,9 @@ const socketCollector = require("./socketCollector");
 function initSocketMain() {
     socketMain.openSocketMain();
 }
+function getDeviceConnectedToSocketMain() {
+    return socketMain.getSocketsMap();
+}
 function writeOnSocketMainByPort(port, message) {
     socketMain.writeOnSocketByPort(port, message)
 }
@@ -48,8 +51,10 @@ function releaseCollectorPort(port) {
     socketCollector.releasePort(port);
 }
 
+
 module.exports = {
     initSocketMain,
+    getDeviceConnectedToSocketMain,
     writeOnSocketMainByPort,
 
     requireFreeCodeSenderPorts,
@@ -58,7 +63,5 @@ module.exports = {
 
     requireFreeCollectorPort,
     openSocketCollectorAndWaitForResult,
-    releaseCollectorPort,
-
-    socketMain,
+    releaseCollectorPort
 };

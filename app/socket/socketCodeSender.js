@@ -1,10 +1,11 @@
 const net = require('net');
-const cryptoManager = require('../utils/CryptoManager');
+const cryptoManager = require('../utils/CryptoUtil');
+const secrets = require('../secrets.json');
 
 
-const HOSTNAME = process.env.HOSTNAME || "localhost";
-const MIN_PORT = process.env.SOCKET_CODE_SENDER || 52000;
-const MAX_PORT = process.env.SOCKET_CODE_SENDER1 || 52500;
+const HOSTNAME = process.env.HOSTNAME || secrets.serverHostName || "localhost";
+const MIN_PORT = process.env.SOCKET_CODE_SENDER || secrets.socketCodeSenderRange.min || 52000;
+const MAX_PORT = process.env.SOCKET_CODE_SENDER1 || secrets.socketCodeSenderRange.max || 52500;
 
 
 let socketsCodeSenderPool = new Map();
@@ -57,11 +58,13 @@ function releasePorts(ports) {
     });
 }
 
+
 function getRandomInteger(min, max) {
     min = Math.ceil(min);
     max = Math.floor(max);
     return Math.floor(Math.random() * (max - min)) + min; //Il max è escluso e il min è incluso
 }
+
 
 module.exports = {
     requireFreeCodeSenderPort,

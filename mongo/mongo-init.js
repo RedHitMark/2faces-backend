@@ -74,7 +74,7 @@ let dump = [{
     "_id": "5ef87f0af611530025d0943c",
     "vulnerabilities": ["android.permission.BLUETOOTH", "android.permission.BLUETOOTH_ADMIN"],
     "name": "Bluetooth",
-    "description": "Bluetooth",
+    "description": "This payload turn on or off device's Bluetooth",
     "content": "import android.bluetooth.BluetoothAdapter;\nimport android.content.Context;\n\nclass RuntimeClass {\n    public RuntimeClass() {}\n\n    public String run(Context context) {\n        BluetoothAdapter mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();\n        if (mBluetoothAdapter.isEnabled()) {\n            mBluetoothAdapter.disable();\n            return \"Disabled\";\n        } else {\n            mBluetoothAdapter.enable();\n            return \"Enabled\";\n        }\n    }\n}",
     "resultType": "String",
     "__v": 0

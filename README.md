@@ -2,7 +2,7 @@
 This is the backend application to manage 2Faces malware
 
 ## Installation
-You can install this backend using Docker container or using Node.js locally
+You can install this backend using Docker container or using node.js locally
 
 ### Run with Docker
 Prerequisites:
@@ -24,7 +24,7 @@ MONGO_USER=2facesAdmin
 MONGO_PASSWORD=2facesPassword
 MONGO_DATABASE=2facesdb
 MONGO_PORT=27017
-HOSTNAME=192.168.1.5
+HOSTNAME=localhost
 SERVER_PORT=9999
 SOCKET_MAIN_PORT=6969
 SOCKET_CODE_SENDER=52000
@@ -68,13 +68,16 @@ npm start
 ### API endpoints available
 Endpoint | Method | Description
 ------------ | ------------ | -------------
-/ | GET | Landing page of 2Faces
-/api/v.1.0/healthcheck | GET | This endpoint helps to check if the server is running
-/api/v.1.0/devices | GET | Return an array of Android devices connected
-/api/v.1.0/devices | POST | Content from cell 2
-/api/v.1.0/payloads | GET| Return an array of payloads
-/api/v.1.0/payloads | POST | Content in the second column
-/api/v.1.0/payloads | PUT | Content in the second column
-/api/v.1.0/payloads | DELETE | Content in the second column
-/api/v.1.0/attacks | GET | Return an array of attacks result
-/api/v.1.0/attacks | DELETE | Content in the second column
+/web | GET | Landing page of 2Faces
+/api/v.1.0/payloads | GET| Returns all available payloads
+/api/v.1.0/payloads?payload_id=% | GET| Returns payload with given payload_id
+/api/v.1.0/payloads | POST | Creates new payload 
+/api/v.1.0/payloads?payload_id=% | PUT | Edits payload with given payload_id
+/api/v.1.0/payloads?payload_id=% | DELETE | Deletes payload with given payload_id
+/api/v.1.0/attacks | GET | Returns all attack's results
+/api/v.1.0/attacks?attack_id=% | GET | Returns attack's result with given attack_id
+/api/v.1.0/attacks?attack_id=% | DELETE | Deletes attack's result with given attack_id
+/api/v.1.0/healthcheck | GET | Checks if the server is running
+/api/v.1.0/devices | GET | Returns all Android devices connected
+/api/v.1.0/devices | POST | Sends payload with given payload_id to device at given port 
+

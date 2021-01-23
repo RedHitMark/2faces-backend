@@ -9,246 +9,121 @@ head
     meta(name="author", content="Marco Russodivito")
     meta(name="copyright", content="Marco Russodivito")
 
+    // Critical Style
+    link(rel='stylesheet' href='./static/css/style.css')
 
-    // CSS
-    link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous")
-    link(rel='stylesheet' href='assets/css/jquery-ui.css')
-    link(rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css')
-    link(rel='stylesheet' href='assets/css/slicknav.min.css')
-    link(rel='stylesheet' href='assets/css/typography.css')
-    link(rel='stylesheet' href='assets/css/style.css')
-    link(rel='stylesheet' href='assets/css/responsive.css')
+    //Deferred Style
+    link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap" media="none" onload="if(media!=='all'){media='all';onload=null;}")
+    link(rel='stylesheet' href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" media="none" onload="if(media!=='all'){media='all';onload=null;}")
+    link(rel='stylesheet' href='./static/css/typography.css' media="none" onload="if(media!=='all'){media='all';onload=null;}")
+    noscript
+        link(rel='stylesheet' href='./static/css/typography.css')
+        link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&display=swap")
+        link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css")
+
     // Favicon
-    link(rel='shortcut icon' type='image/png' href='assets/img/icon/icon.png')
-    // HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
-    // WARNING: Respond.js doesn't work if you view the page via file://
-    //if lt IE 9
-      script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
-      script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
-
-
-// header
+    link(rel='shortcut icon' type='image/png' href='./static/img/icon/icon.png')
+// Header
 header#header
-    .header-area
-        .container
-            .row
-                .menu-area
-                    .col-md-3.col-sm-12.col-xs-12
-                        .logo
-                            a(href='index.html')
-                                img(src='assets/img/icon/icon.png' alt='Zeedapp - App Landing Template' style="max-height:40px; border-radius:10px; background: radial-gradient(circle, rgba(255,255,255,1) 22%, rgba(93,18,248,1) 100%);")
-                    .col-md-9.hidden-xs.hidden-sm
-                        .main-menu
-                            nav.nav-menu
-                                ul
-                                    li.active
-                                        a(href='#home') 2Faces
-                                    li
-                                        a(href='#team') Team
-                                    li
-                                        a(href='#download') Download
-                    .col-sm-12.col-xs-12.visible-sm.visible-xs
-                        .mobile_menu
-
-// slider area start
-section#home.slider-area
-    .container
+    #header-desktop
+        #logo-desktop
+            img(src='static/img/icon/icon.png' alt='2Faces Logo')
+        nav#nav-menu
+            a(href='#home') 2Faces
+            a(href='#team') Team
+            a(href='#download') Download
+    #header-mobile
+        #logo-mobile
+            img(src='static/img/icon/icon.png' alt='2Faces Logo')
+        #burger-menu
+                i.fas.fa-bars
+        #mobile-menu
+            span#cross-menu &#x2716;
+            nav#mobile-menu-items
+                a.nav-item(href='#home') 2Faces
+                a.nav-item(href='#team') Team
+                a.nav-item(href='#download') Download
+//Wrapper
+#wrapper
+    // Intro
+    #intro.container
         .row
-            .col-md-6.col-sm-6.col-xs-12
-                .slider-img
-                    img(src='assets/img/icon/logo1.png' alt='slider image')
-            .col-md-6.col-sm-6.col-xs-12
-                .slider-inner.text-right
-                    h2 Android malware are right behind you!
-                    h5 Cybersecurity must be a concern!
-                    div
+            .col-50
+                #large-logo-img
+                    img(src='./static/img/icon/logo1.png' alt='2Faces logo')
+            .col-50
+                .info
+                    h1 Android malware are right behind you!
+                    p
+                        strong Cybersecurity must be a concern!
+                    .cta
                         i.fa.fa-user-secret
                         | Be careful
-
-// service area
-.service-area
-    .container
+    // Features
+    #features.container
         .row
-            .col-md-3.col-sm-3.col-xs-12
+            .col-25
                 .service-single
                     i.fab.fa-android.fa-4x
                     h2 Android Malware
-            .col-md-3.col-sm-3.col-xs-12.col-6
+            .col-25
                 .service-single
                     i.fas.fa-cogs.fa-4x
                     h2 Dynamic compiling
-            .col-md-3.col-sm-3.col-xs-12.col-6
+            .col-25
                 .service-single
                     i.fas.fa-arrow-circle-up.fa-4x
                     h2 Dynamic loading
-            .col-md-3.col-sm-3.col-xs-12.col-6
+            .col-25
                 .service-single
                     i.fas.fa-eye-slash.fa-4x
                     h2 Stealth mode
-
-// about area
-.about-area.ptb--100
-    .container
+    // About
+    #about.container
         .section-title
-            h2 About App
-            p Nemo enim ipsam voluptatem quia voluptas sit
-        .row.d-flex.flex-center
-            .col-md-6.col-sm-6.hidden-xs
-                .about-left-img
-                    img(src='assets/img/about/abt-left-img.png' alt='image')
-            .col-md-6.col-sm-6.col-xs-12.d-flex.flex-center
-                .about-content
-                    p
-                        | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed  eiuiosmod terttmpor incididunt ut labore et dolore magna aliqua. enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. doliuor in reprehenderit in voluptate velit esse  dolore eu fugiat nulla pariatur. cdatat non proident
-                    p
-                        | Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tuiempor incididunt ut labore et dolore magna aliqua. enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-// about area end
-
-// achivement area start
-.achivement-area.ptb--100
-    .container
-        .row
-            .col-md-3.col-sm-3.col-xs-12
-                .ach-single
-                    .icon
-                        i.fa.fa-users
-                    p
-                        span.counter 10
-                        | k
-                    h5 Happy Clients
-            .col-md-3.col-sm-3.col-xs-12
-                .ach-single
-                    .icon
-                        i.fa.fa-book
-                    span.counter 978
-                    h5 Projects complet
-            .col-md-3.col-sm-3.col-xs-12
-                .ach-single
-                    .icon
-                        i.fa.fa-coffee
-                    p
-                        span.counter 150
-                        | k
-                    h5 Cups of coffee
-            .col-md-3.col-sm-3.col-xs-12
-                .ach-single
-                    .icon
-                        i.fa.fa-trophy
-                    span.counter 100
-                    h5 Winning awards
-// achivement area end
-
-
-// team area start
-section#team.team-area.bg-gray.ptb--100
-    .container
+            h2 About 2Faces
+        p This is a university thesis about a new model of Android malware based on reflection, dynamic compiling and dynamic loading in order to execute malicious code not in the device at compile-time
+    // Team
+    #team.container
         .section-title
             h2 Our Amazing Team
-            p Nemo enim ipsam voluptatem quia voluptas sit
         .row
-            .col-md-4.col-sm-6.col-xs-12.col-6
+            .col-33
                 .single-team
                     .team-thumb
-                        img(src='assets/img/team/team-img1.jpg' alt='image')
+                        img(src='./static/img/team/francesco-mercaldo.jpg' alt='Ing. Francesco Mercaldo')
                     h4 Ing. Francesco Mercaldo
                     span THESIS SUPERVISOR
-                    ul.tst-social
-                        li
-                            a(href='#')
-                                i.fa.fa-facebook
-                        li
-                            a(href='#')
-                                i.fa.fa-twitter
-                        li
-                            a(href='#')
-                                i.fa.fa-linkedin
-                        li
-                            a(href='#')
-                                i.fa.fa-dribbble
-                        li
-                            a(href='#')
-                                i.fa.fa-ponterest
-            .col-md-4.col-sm-6.col-xs-12.col-6
+            .col-33
                 .single-team
                     .team-thumb
-                        img(src='assets/img/team/team-img2.jpg' alt='image')
+                        img(src='./static/img/team/rosangela-casolare.jpg' alt='Dott.ssa Rosangela Casolare')
                     h4 Dott.ssa Rosangela Casolare
                     span THESIS CO-SUPERVISOR
-                    ul.tst-social
-                        li
-                            a(href='#')
-                                i.fa.fa-facebook
-                        li
-                            a(href='#')
-                                i.fa.fa-twitter
-                        li
-                            a(href='#')
-                                i.fa.fa-linkedin
-                        li
-                            a(href='#')
-                                i.fa.fa-dribbble
-                        li
-                            a(href='#')
-                                i.fa.fa-ponterest
-            .col-md-4.col-sm-6.col-xs-12.col-6
+            .col-33
                 .single-team
                     .team-thumb
-                        img(src='assets/img/team/team-img2.jpg' alt='image')
+                        img(src='./static/img/team/marco-russodivito.jpg' alt='Marco Russodivito')
                     h4 Marco Russodivito
-                    span Developer
-                    ul.tst-social
-                        li
-                            a(href='#')
-                                i.fa.fa-facebook
-                        li
-                            a(href='#')
-                                i.fa.fa-twitter
-                        li
-                            a(href='#')
-                                i.fa.fa-linkedin
-                        li
-                            a(href='#')
-                                i.fa.fa-dribbble
-                        li
-                            a(href='#')
-                                i.fa.fa-ponterest
-// team area end
-// call-action area start
-section#download.call-to-action.ptb--100
-    .container
-        .section-title.text-white
-            h2 Our Amazing Team
-            p Nemo enim ipsam voluptatem quia voluptas sit
-        .download-btns.btn-area.text-center
-            a(href='#')
-                i.fa.fa-apple
-                | android story
-            a(href='#')
-                i.fa.fa-windows
-                | Windows story
-            a(href='#')
-                i.fa.fa-android
-                | android story
-// call-action area end
+                    span DEVELOPER
 
-// footer area start
-footer
-    .footer-area
-        .container
-            p
-                // Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
-                | Copyright &copy;
-                script.
-                    document.write(new Date().getFullYear());
-                |  All rights reserved | This template is made with
-                i.fa.fa-heart-o(aria-hidden='true')
-
+    // call-action area start
+    #devliverables.container-fluid
+        .section-title
+            h2 Project Deliverables
+            p All project deliverables are available for free on GitHub
+        .repositories
+            a(href='https://github.com/RedHitMark/2faces-android')
+                i.fab.fa-android
+                | Android Case Study
+            a(href='https://github.com/RedHitMark/2faces-backend')
+                i.fab.fa-node
+                | Backend
+            a(href='https://github.com/RedHitMark/2faces-panel')
+                i.fab.fa-vuejs
+                | Control Panel
+// Footer
+footer#footer
+    p Copyright &copy; 2020 |  All rights reserved
 // Scripts
-script(src='assets/js/jquery-3.2.0.min.js')
-script(src='assets/js/jquery-ui.js')
-script(src='assets/js/bootstrap.min.js')
-script(src='assets/js/jquery.slicknav.min.js')
-script(src='assets/js/counterup.js')
-script(src='assets/js/jquery.waypoints.min.js')
-script(src='assets/js/theme.js')
-
+script(src='static/js/main.js')

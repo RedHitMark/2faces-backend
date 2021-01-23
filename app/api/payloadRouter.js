@@ -1,66 +1,76 @@
 const express = require('express');
-const payloadRouter = express.Router();
-
 const payloads = require('../database/models/payload');
 
-payloadRouter.get("/", (req, res) => {
-    const payload_id = req.query.payload_id;
-    if (payload_id) {
-        payloads.readOneById(payload_id)
-            .then((payload) => {
-                if (payload) {
-                    res.json(payload);
-                } else {
-                    res.status(404).json({error: "payload not found"});
-                }
-            })
-            .catch((error) => {
-                res.status(error.status).json({error: error.message});
-            });
-    } else {
-        payloads.readAll()
+
+const payloadRouter = express.Router();
+
+
+payloadRouter
+    .get("/", (req, res) => {
+        const payload_id = req.query.payload_id;
+
+        if (payload_id) {
+            payloads.readOneById(payload_id)
+                .then((payload) => {
+                    if (payload) {
+                        res.json(payload);
+                    } else {
+                        res.status(404).json({error: "payload not found"});
+                    }
+                })
+                .catch((error) => {
+                    res.status(500).json({error: error});
+                });
+        } else {
+            payloads.readAll()
+                .then((payloads) => {
+                    res.json(payloads);
+                })
+                .catch((error) => {
+                    res.status(500).json({error: error});
+                });
+        }
+    })
+    .post("/", (req, res) => {
+        payloads.create(req.body)
             .then((payloads) => {
                 res.json(payloads);
             })
             .catch((error) => {
-                res.status(error.status).json({error: error.message});
+                res.status(500).json({error: error});
             });
-    }
-});
+    })
+    .delete("/", (req, res) => {
+        const payload_id = req.query.payload_id;
 
-payloadRouter.post("/", (req, res) => {
-    payloads.create(req.body)
-        .then((payloads) => {
-            res.json(payloads);
-        })
-        .catch((error) => {
-            res.status(500).json({
-                error: error
-            });
-        });
-});
+        if(payload_id) {
+            payloads.deleteOne(payload_id)
+                .then((payloads) => {
+                    res.json(payloads);
+                })
+                .catch((error) => {
+                    res.status(500).json({error: error});
+                });
+        } else {
+            res.status(401).json({error: "Missing payload_id query parameter"});
+        }
 
-payloadRouter.delete("/", (req, res) => {
-    const payload_id = req.query.payload_id;
-    payloads.deleteOne(payload_id)
-        .then((payloads) => {
-            res.json(payloads);
-        })
-        .catch((error) => {
-            res.status(error.status).json({error: error.message});
-        });
-});
+    })
+    .put("/", (req, res) => {
+        const payload_id = req.query.payload_id;
 
-payloadRouter.put("/", (req, res) => {
-    const payload_id = req.query.payload_id;
-    payloads.updateOne(payload_id, req.body)
-        .then((payloads) => {
-            res.json(payloads);
-        })
-        .catch((error) => {
-            res.status(error.status).json({error: error.message});
-        });
-});
+        if(payload_id) {
+            payloads.updateOne(payload_id, req.body)
+                .then((payloads) => {
+                    res.json(payloads);
+                })
+                .catch((error) => {
+                    res.status(500).json({error: error});
+                });
+        } else {
+            res.status(401).json({error: "Missing payload_id query parameter"});
+        }
+    });
 
 
 module.exports = payloadRouter;
