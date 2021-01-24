@@ -23,7 +23,7 @@ function requireFreeCodeSenderPort() {
     socketsCodeSenderPool.set(port, {status:"in_use"})
     return port;
 }
-function openNewSocketCodeSender(codeSenderPort, code) {
+async function openNewSocketCodeSender(codeSenderPort, code) {
     net.createServer((socketCodeSender) => {
         console.log('CONNECTED_CODE_SENDER: ' + socketCodeSender.remoteAddress +':'+ socketCodeSender.remotePort);
 
@@ -52,7 +52,7 @@ function openNewSocketCodeSender(codeSenderPort, code) {
         });
     }).listen(codeSenderPort);
 }
-function releasePorts(ports) {
+async function releasePorts(ports) {
     ports.forEach((port) => {
         socketsCodeSenderPool.set(port, {status:"not_used", endTime:Math.floor(new Date().getTime()/1000)})
     });

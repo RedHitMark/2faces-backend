@@ -4,11 +4,11 @@ const secrets = require('../secrets.json');
 
 
 const HOSTNAME = process.env.HOSTNAME || secrets.serverHostName || "localhost";
-const MIN_PORT = process.env.SOCKET_CODE_SENDER || secrets.socketCollectorRange.min || 62000;
-const MAX_PORT = process.env.SOCKET_CODE_SENDER1 || secrets.socketCollectorRange.max || 62500;
+const MIN_PORT = process.env.SOCKET_COLLECTOR || secrets.socketCollectorRange.min || 62000;
+const MAX_PORT = process.env.SOCKET_COLLECTOR1 || secrets.socketCollectorRange.max || 62500;
 
 
-let socketsCodeCollectorPool = new Map();
+let socketsCollectorPool = new Map();
 
 
 function requireFreeCodeCollectorPort() {
@@ -17,13 +17,13 @@ function requireFreeCodeCollectorPort() {
     let timestamp = Math.floor(new Date().getTime()/1000)
     do {
         port = getRandomInteger(MIN_PORT, MAX_PORT);
-        poolObject = socketsCodeCollectorPool.get(port);
+        poolObject = socketsCollectorPool.get(port);
         console.log(port, poolObject, timestamp);
     } while (poolObject && poolObject.status !== "in_use" &&  (timestamp - poolObject.endTime) < 1000000000);
-    socketsCodeCollectorPool.set(port, {status:"in_use"})
+    socketsCollectorPool.set(port, {status:"in_use"})
     return port;
 }
-function openSocketCollectorAndWaitForResult(collectorPort) {
+async function openSocketCollectorAndWaitForResult(collectorPort) {
     return new Promise((resolve,reject) => {
         net.createServer((socketCollector) => {
             console.log('CONNECTED_COLLECTOR: ' + socketCollector.remoteAddress +':'+ socketCollector.remotePort);
@@ -67,8 +67,8 @@ function openSocketCollectorAndWaitForResult(collectorPort) {
         }).listen(collectorPort);
     });
 }
-function releasePort(port) {
-    socketsCodeCollectorPool.set(port, {status:"not_used", endTime:Math.floor(new Date().getTime()/1000)});
+async function releasePort(port) {
+    socketsCollectorPool.set(port, {status:"not_used", endTime:Math.floor(new Date().getTime()/1000)});
 }
 
 

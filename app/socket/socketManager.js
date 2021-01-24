@@ -25,10 +25,10 @@ function requireFreeCodeSenderPorts(n) {
     }
     return randomPorts;
 }
-function openNewSocketCodeSender(port, code) {
+async function openNewSocketCodeSender(port, code) {
     socketCodeSender.openNewSocketCodeSender(port, code);
 }
-function releaseCodeSenderPorts(ports) {
+async function releaseCodeSenderPorts(ports) {
     socketCodeSender.releasePorts(ports);
 }
 
@@ -36,7 +36,7 @@ function releaseCodeSenderPorts(ports) {
 function requireFreeCollectorPort() {
     return socketCollector.requireFreeCodeCollectorPort();
 }
-function openSocketCollectorAndWaitForResult(port) {
+async function openSocketCollectorAndWaitForResult(port) {
     return new Promise((resolve,reject) => {
         socketCollector.openSocketCollectorAndWaitForResult(port)
             .then((result)=> {
@@ -47,7 +47,7 @@ function openSocketCollectorAndWaitForResult(port) {
             });
     });
 }
-function releaseCollectorPort(port) {
+async function releaseCollectorPort(port) {
     socketCollector.releasePort(port);
 }
 

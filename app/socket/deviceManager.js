@@ -56,10 +56,11 @@ async function triggerDevice(device, payload_id) {
                 socketManager.openSocketCollectorAndWaitForResult(randomPortCollector)
                     .then((result) => {
                         const tIndex = result.toString().indexOf("Timing: ");
-                        const timingString = result.toString().substring(tIndex+8, resultIndex);
+                        const rIndex = result.toString().indexOf("|");
+
+                        const timingString = result.toString().substring(tIndex+8, rIndex);
                         const timings = timingString.split('~');
 
-                        const rIndex = result.toString().indexOf("|");
                         const resultString = result.toString().substring(rIndex+9);
 
                         const newAttack = {
@@ -82,7 +83,7 @@ async function triggerDevice(device, payload_id) {
                         resolve(newAttack);
                     })
                     .catch((error) => {
-                        reject({status: 501, message: error});
+                        reject({status: 500, message: error});
                     })
                     .finally(() => {
                         socketManager.releaseCollectorPort(randomPortCollector);
