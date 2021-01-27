@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:current-alpine
 
 # Move into app folder
 WORKDIR /app
