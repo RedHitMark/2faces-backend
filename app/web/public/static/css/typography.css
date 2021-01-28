@@ -53,7 +53,6 @@ strong {
 .section-title h2:before {
     content: '';
     position: absolute;
-    left: 0;
     bottom: 0;
     height: 2px;
     width: 130px;
@@ -63,7 +62,6 @@ strong {
 .section-title h2:after {
     content: '';
     position: absolute;
-    left: 0;
     bottom: -3px;
     height: 8px;
     width: 8px;

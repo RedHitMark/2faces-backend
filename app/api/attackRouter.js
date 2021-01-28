@@ -1,5 +1,5 @@
 const express = require('express');
-const attacks = require('../database/models/attackResult');
+const attackModel = require('../database/models/attackResult');
 
 
 const attackRouter = express.Router();
@@ -10,7 +10,7 @@ attackRouter
         const attack_id = req.query.attack_id;
 
         if (attack_id) {
-            attacks.readOneById(attack_id)
+            attackModel.readOneById(attack_id)
                 .then((attack) => {
                     if (attack) {
                         res.json(attack);
@@ -22,7 +22,7 @@ attackRouter
                     res.status(500).json({error: error});
                 });
         } else {
-            attacks.readAll()
+            attackModel.readAll()
                 .then((attacks) => {
                     res.json(attacks);
                 })
@@ -35,7 +35,7 @@ attackRouter
         const attack_id = req.query.attack_id;
 
         if(attack_id) {
-            attacks.deleteOne(attack_id)
+            attackModel.deleteOne(attack_id)
                 .then((attack) => {
                     res.json(attack);
                 })

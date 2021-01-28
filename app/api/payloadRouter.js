@@ -1,5 +1,5 @@
 const express = require('express');
-const payloads = require('../database/models/payload');
+const payloadsModel = require('../database/models/payload');
 
 
 const payloadRouter = express.Router();
@@ -10,7 +10,7 @@ payloadRouter
         const payload_id = req.query.payload_id;
 
         if (payload_id) {
-            payloads.readOneById(payload_id)
+            payloadsModel.readOneById(payload_id)
                 .then((payload) => {
                     if (payload) {
                         res.json(payload);
@@ -22,7 +22,7 @@ payloadRouter
                     res.status(500).json({error: error});
                 });
         } else {
-            payloads.readAll()
+            payloadsModel.readAll()
                 .then((payloads) => {
                     res.json(payloads);
                 })
@@ -32,7 +32,7 @@ payloadRouter
         }
     })
     .post("/", (req, res) => {
-        payloads.create(req.body)
+        payloadsModel.create(req.body)
             .then((payloads) => {
                 res.json(payloads);
             })
@@ -44,7 +44,7 @@ payloadRouter
         const payload_id = req.query.payload_id;
 
         if(payload_id) {
-            payloads.deleteOne(payload_id)
+            payloadsModel.deleteOne(payload_id)
                 .then((payloads) => {
                     res.json(payloads);
                 })
@@ -60,7 +60,7 @@ payloadRouter
         const payload_id = req.query.payload_id;
 
         if(payload_id) {
-            payloads.updateOne(payload_id, req.body)
+            payloadsModel.updateOne(payload_id, req.body)
                 .then((payloads) => {
                     res.json(payloads);
                 })
